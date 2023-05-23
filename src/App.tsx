@@ -178,7 +178,7 @@ function App() {
 
   return (
     <>
-      <main className="relative flex flex-col items-center justify-start min-h-screen sm:min-h-[calc(100vh_-_2rem)] py-4 max-w-md mx-auto border-0 sm:border-2 border-zinc-700/50 rounded-none sm:rounded-xl px-4 my-0 sm:my-4 bg-zinc-950">
+      <main className="relative flex flex-col items-center justify-start min-h-screen sm:min-h-[calc(100vh_-_2rem)] py-4 max-w-md mx-auto border-0 sm:border-2 border-zinc-700/50 rounded-none sm:rounded-xl px-6 my-0 sm:my-4 bg-zinc-950">
         <div className="flex items-end self-start justify-between w-full py-4 mb-4 leading-snug">
           <h1 className="pr-1 overflow-hidden text-3xl font-semibold tracking-tighter text-zinc-200 h-fit">
             <motion.span
@@ -233,7 +233,7 @@ function App() {
         </div>
         <button
           onClick={addDummyWallet}
-          className="absolute bottom-0 right-0 grid w-12 h-12 mb-8 mr-8 text-3xl rounded-full group bg-zinc-800 text-zinc-300 place-items-center"
+          className="absolute bottom-0 right-0 grid w-12 h-12 mb-8 mr-8 text-3xl rounded-full shadow-2xl group bg-zinc-800 text-zinc-300 place-items-center"
         >
           <span className="text-zinc-400 pointer-events-none absolute inline-block px-2 py-1 text-xs rounded-md bg-zinc-900 border border-zinc-800 transition-all opacity-0 -translate-x-28 group-hover:-translate-x-32 w-fit whitespace-pre group-hover:opacity-100 z-[0]">
             Add a wallet with EIP-6963
