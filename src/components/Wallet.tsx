@@ -106,7 +106,7 @@ const Wallet = (props: Props) => {
               </svg>
             </motion.div>
           ) : (
-            <>
+            <AnimatePresence mode="wait">
               {connected ? (
                 <motion.div
                   key="Connected"
@@ -148,7 +148,7 @@ const Wallet = (props: Props) => {
                   </svg>
                 </motion.button>
               )}
-            </>
+            </AnimatePresence>
           )}
         </AnimatePresence>
       </div>
