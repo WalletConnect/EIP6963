@@ -8,7 +8,18 @@ import {
 } from "./utils/types";
 import Wallet from "./components/Wallet";
 import { Toaster } from "./components/ui/Toaster";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+
+const textVariants = (type: string) => ({
+  initial: {
+    opacity: 0,
+    x: type === "ltr" ? "-100%" : "100%",
+  },
+  animate: {
+    opacity: 1,
+    x: 0,
+  },
+});
 
 interface CustomEventMap {
   "eip6963:announceProvider": CustomEvent<EIP6963AnnounceProviderEvent>;
@@ -167,12 +178,43 @@ function App() {
 
   return (
     <>
-      <main className="relative flex flex-col items-center justify-start min-h-screen sm:min-h-[calc(100vh_-_2rem)] py-4 max-w-md mx-auto border-0 sm:border-2 border-zinc-700/50 rounded-none sm:rounded-xl px-4 my-0 sm:my-4 bg-zinc-950/75">
+      <main className="relative flex flex-col items-center justify-start min-h-screen sm:min-h-[calc(100vh_-_2rem)] py-4 max-w-md mx-auto border-0 sm:border-2 border-zinc-700/50 rounded-none sm:rounded-xl px-4 my-0 sm:my-4 bg-zinc-950">
         <div className="flex items-end self-start justify-between w-full py-4 mb-4 leading-snug">
-          <h1 className="text-3xl font-semibold tracking-tighter text-zinc-200">
-            Discovered Wallets
+          <h1 className="pr-1 overflow-hidden text-3xl font-semibold tracking-tighter text-zinc-200 h-fit">
+            <motion.span
+              variants={textVariants("ltr")}
+              initial="initial"
+              animate="animate"
+              transition={{
+                type: "spring",
+                damping: 16,
+                stiffness: 200,
+                mass: 0.5,
+                velocity: 2,
+              }}
+              className="relative inline-block"
+            >
+              Discovered Wallets
+            </motion.span>
           </h1>
-          <p className="font-semibold text-zinc-800">EIP-6963</p>
+          <p className="pl-1 overflow-hidden font-semibold text-zinc-800 h-fit">
+            <motion.span
+              variants={textVariants("rtl")}
+              initial="initial"
+              animate="animate"
+              transition={{
+                type: "spring",
+                damping: 14,
+                stiffness: 200,
+                mass: 0.5,
+                velocity: 2,
+                delay: 0.5,
+              }}
+              className="relative inline-block"
+            >
+              EIP-6963
+            </motion.span>
+          </p>
         </div>
         <div className="w-full space-y-2">
           <AnimatePresence>

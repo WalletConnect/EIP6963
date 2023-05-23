@@ -1,0 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+$bg-color: rgb(9 9 11);
+$dot-color: rgb(99, 102, 241);
+
+$dot-size: 1px;
+$dot-space: 36px;
+
+body {
+  background: linear-gradient(
+        90deg,
+        $bg-color ($dot-space - $dot-size),
+        transparent 1%
+      )
+      center,
+    linear-gradient($bg-color ($dot-space - $dot-size), transparent 1%) center,
+    $dot-color;
+  background-size: $dot-space $dot-space;
+  @apply text-zinc-50;
+  &:after {
+    content: "";
+    @apply absolute inset-0 bg-gradient-radial from-black/40 to-zinc-950 z-[-1];
+  }
+}
+
+.animate-halo {
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}

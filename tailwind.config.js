@@ -16,6 +16,9 @@ export default {
           "sans-serif",
         ],
       },
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+      },
     },
   },
   plugins: [anim],
