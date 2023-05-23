@@ -14,7 +14,7 @@ import useResizeObserver from "use-resize-observer";
 const textVariants = {
   initial: {
     opacity: 0,
-    x: -100,
+    x: 20,
   },
   animate: {
     opacity: 1,
@@ -29,7 +29,7 @@ const sentenceVariant = {
   animate: {
     opacity: 1,
     transition: {
-      delay: 0.2,
+      delayChildren: 0.2,
       staggerChildren: 0.02,
     },
   },
@@ -38,7 +38,7 @@ const sentenceVariant = {
 const letterVariant = {
   initial: {
     opacity: 0,
-    y: 20,
+    y: 10,
   },
   animate: {
     opacity: 1,
@@ -226,7 +226,7 @@ function App() {
             variants={sentenceVariant}
             initial="initial"
             animate="animate"
-            className="pr-1 text-3xl font-semibold tracking-tighter whitespace-pre text-zinc-200"
+            className="pr-1 overflow-hidden text-3xl font-semibold tracking-tighter whitespace-pre text-zinc-200"
           >
             {headingText.map((letter, index) => (
               <motion.span
@@ -244,7 +244,7 @@ function App() {
               initial="initial"
               animate="animate"
               transition={{
-                delay: 0.575,
+                delay: 0.6,
               }}
               className="relative inline-block"
             >
