@@ -11,16 +11,42 @@ import { Toaster } from "./components/ui/Toaster";
 import { AnimatePresence, motion } from "framer-motion";
 import useResizeObserver from "use-resize-observer";
 
-const textVariants = (type: string) => ({
+const textVariants = {
   initial: {
     opacity: 0,
-    x: type === "ltr" ? "-100%" : "100%",
+    x: -100,
   },
   animate: {
     opacity: 1,
     x: 0,
   },
-});
+};
+
+const sentenceVariant = {
+  initial: {
+    opacity: 1,
+  },
+  animate: {
+    opacity: 1,
+    transition: {
+      delay: 0.2,
+      staggerChildren: 0.02,
+    },
+  },
+};
+
+const letterVariant = {
+  initial: {
+    opacity: 0,
+    y: 20,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+  },
+};
+
+const headingText = "Discovered Wallets".split("");
 
 interface CustomEventMap {
   "eip6963:announceProvider": CustomEvent<EIP6963AnnounceProviderEvent>;
@@ -186,7 +212,6 @@ function App() {
   React.useEffect(() => {
     const current = contentRef.current;
     if (current && height) {
-      console.log("Height: ", height, window.innerHeight - 160);
       if (height >= window.innerHeight - 160) {
         current.style.overflowY = "scroll";
       }
@@ -196,36 +221,30 @@ function App() {
   return (
     <>
       <main className="relative flex flex-col items-center justify-start min-h-screen sm:min-h-[calc(100vh_-_2rem)] py-4 max-w-md mx-auto border-0 sm:border-2 border-zinc-700/50 rounded-none sm:rounded-xl px-6 my-0 sm:my-4 bg-zinc-950">
-        <div className="flex items-end self-start justify-between w-full py-4 mb-4 leading-snug">
-          <h1 className="pr-1 overflow-hidden text-3xl font-semibold tracking-tighter text-zinc-200 h-fit">
-            <motion.span
-              variants={textVariants("ltr")}
-              initial="initial"
-              animate="animate"
-              transition={{
-                type: "spring",
-                damping: 16,
-                stiffness: 200,
-                mass: 0.5,
-                velocity: 2,
-              }}
-              className="relative inline-block"
-            >
-              Discovered Wallets
-            </motion.span>
-          </h1>
+        <div className="flex items-end self-start justify-between w-full py-4 mb-4 overflow-hidden leading-snug h-fit">
+          <motion.h1
+            variants={sentenceVariant}
+            initial="initial"
+            animate="animate"
+            className="pr-1 text-3xl font-semibold tracking-tighter whitespace-pre text-zinc-200"
+          >
+            {headingText.map((letter, index) => (
+              <motion.span
+                key={`${letter}-${index}`}
+                variants={letterVariant}
+                className="relative inline-block"
+              >
+                {letter}
+              </motion.span>
+            ))}
+          </motion.h1>
           <p className="pl-1 overflow-hidden font-semibold text-zinc-800 h-fit">
             <motion.span
-              variants={textVariants("rtl")}
+              variants={textVariants}
               initial="initial"
               animate="animate"
               transition={{
-                type: "spring",
-                damping: 14,
-                stiffness: 200,
-                mass: 0.5,
-                velocity: 2,
-                delay: 0.5,
+                delay: 0.6,
               }}
               className="relative inline-block"
             >
