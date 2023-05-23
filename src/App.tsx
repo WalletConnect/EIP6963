@@ -8,7 +8,7 @@ import {
 } from "./utils/types";
 import Wallet from "./components/Wallet";
 import { Toaster } from "./components/ui/Toaster";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 interface CustomEventMap {
   "eip6963:announceProvider": CustomEvent<EIP6963AnnounceProviderEvent>;
