@@ -9,6 +9,7 @@ import {
 import Wallet from "./components/Wallet";
 import { Toaster } from "./components/ui/Toaster";
 import { AnimatePresence, motion } from "framer-motion";
+import useResizeObserver from "use-resize-observer";
 
 const textVariants = (type: string) => ({
   initial: {
@@ -86,6 +87,12 @@ function getInjectedName(ethereum?: WindowProvider): string {
 }
 function App() {
   const [providers, setProviders] = React.useState<EVMProviderDetected[]>([]);
+
+  const contentRef = React.useRef<HTMLDivElement>(null);
+
+  const { height } = useResizeObserver({
+    ref: contentRef,
+  });
 
   React.useEffect(() => {
     if (typeof window.ethereum !== "undefined") {
@@ -176,6 +183,16 @@ function App() {
     );
   };
 
+  React.useEffect(() => {
+    const current = contentRef.current;
+    if (current && height) {
+      console.log("Height: ", height, window.innerHeight - 160);
+      if (height >= window.innerHeight - 160) {
+        current.style.overflowY = "scroll";
+      }
+    }
+  }, [height]);
+
   return (
     <>
       <main className="relative flex flex-col items-center justify-start min-h-screen sm:min-h-[calc(100vh_-_2rem)] py-4 max-w-md mx-auto border-0 sm:border-2 border-zinc-700/50 rounded-none sm:rounded-xl px-6 my-0 sm:my-4 bg-zinc-950">
@@ -216,7 +233,11 @@ function App() {
             </motion.span>
           </p>
         </div>
-        <div className="w-full space-y-2">
+        <div className="absolute bottom-0 left-0 z-20 w-[calc(100%_-_3rem)] mx-6 my-4 overflow-hidden pointer-events-none h-1/4 bg-gradient-to-b from-transparent to-zinc-950" />
+        <div
+          ref={contentRef}
+          className="w-full max-h-[calc(100vh_-_10rem)] space-y-2 relative"
+        >
           <AnimatePresence>
             {providers.map(provider => {
               return (
@@ -233,7 +254,7 @@ function App() {
         </div>
         <button
           onClick={addDummyWallet}
-          className="absolute bottom-0 right-0 grid w-12 h-12 mb-8 mr-8 text-3xl rounded-full shadow-2xl group bg-zinc-800 text-zinc-300 place-items-center"
+          className="absolute z-50 grid w-12 h-12 text-3xl rounded-full bottom-8 right-8 shadow-bold group bg-zinc-800 text-zinc-300 place-items-center"
         >
           <span className="text-zinc-400 pointer-events-none absolute inline-block px-2 py-1 text-xs rounded-md bg-zinc-900 border border-zinc-800 transition-all opacity-0 -translate-x-28 group-hover:-translate-x-32 w-fit whitespace-pre group-hover:opacity-100 z-[0]">
             Add a wallet with EIP-6963

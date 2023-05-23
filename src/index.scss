@@ -10,6 +10,10 @@ $dot-color: rgb(99, 102, 241);
 $dot-size: 1px;
 $dot-space: 36px;
 
+:root {
+  color-scheme: dark;
+}
+
 body {
   background: linear-gradient(
         90deg,
@@ -25,6 +29,12 @@ body {
     content: "";
     @apply absolute inset-0 bg-gradient-radial from-black/40 to-zinc-950 z-[-1];
   }
+}
+
+.shadow-bold {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 .animate-halo {
