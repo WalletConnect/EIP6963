@@ -244,7 +244,7 @@ function App() {
               initial="initial"
               animate="animate"
               transition={{
-                delay: 0.6,
+                delay: 0.575,
               }}
               className="relative inline-block"
             >
