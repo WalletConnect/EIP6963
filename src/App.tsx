@@ -100,8 +100,15 @@ function App() {
       }
 
       setProviders(prevProviders => {
-        prevProviders.set(windowProvider.info.uuid, windowProvider);
-        return prevProviders;
+        Object.keys(otherProviders).forEach(key => {
+          if (otherProviders[key].info.name !== windowProvider.info.name) {
+            prevProviders.set(key, otherProviders[key]);
+          }
+        });
+        if (Object.keys(otherProviders).length === 0) {
+          prevProviders.set(windowProvider.info.uuid, windowProvider);
+        }
+        return new Map(prevProviders);
       });
     }
 
@@ -115,8 +122,9 @@ function App() {
       };
 
       setProviders(prevProviders => {
-        prevProviders.set(announcedProvider.info.uuid, announcedProvider);
-        return prevProviders;
+        return new Map(
+          prevProviders.set(announcedProvider.info.uuid, announcedProvider)
+        );
       });
     };
 
@@ -144,7 +152,7 @@ function App() {
       selectedProvider.connected = true;
       selectedProvider.accounts = accounts;
       prevProviders.set(selectedProvider.info.uuid, selectedProvider);
-      return prevProviders;
+      return new Map(prevProviders);
     });
   }
 
@@ -212,7 +220,7 @@ function App() {
           className="w-full max-h-[calc(100vh_-_10rem)] space-y-2 relative"
         >
           <AnimatePresence>
-            {Object.entries(providers).map(([_, provider]) => {
+            {Array.from(providers).map(([_, provider]) => {
               return (
                 <Wallet
                   key={provider.info.uuid}

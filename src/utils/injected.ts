@@ -169,6 +169,7 @@ export function getInjectedInfo(
     if (provider.isOkxWallet || provider.isOKExWallet)
       return {
         walletId: provider.isOkxWallet ? "isOkxWallet" : "isOKExWallet",
+        uuid,
         name: "OKX Wallet",
         icon: defaultProviderIcon, // TODO: replace with OKX Wallet icon
       };
@@ -177,6 +178,7 @@ export function getInjectedInfo(
         walletId: provider.isOneInchIOSWallet
           ? "isOneInchIOSWallet"
           : "isOneInchAndroidWallet",
+        uuid,
         name: "1inch Wallet",
         icon: defaultProviderIcon, // TODO: replace with 1inch Wallet icon
       };
@@ -253,6 +255,7 @@ export function getInjectedInfo(
     if (provider.isTrust || provider.isTrustWallet)
       return {
         walletId: provider.isTrust ? "isTrust" : "isTrustWallet",
+        uuid,
         name: "Trust Wallet",
         icon: defaultProviderIcon, // TODO: replace with Trust Wallet icon
       };
