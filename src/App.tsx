@@ -132,6 +132,7 @@ function App() {
       "eip6963:announceProvider",
       onAnnounceProvider as EventListener
     );
+
     window.dispatchEvent(new Event("eip6963:requestProvider"));
     return () => {
       window.removeEventListener(
@@ -145,16 +146,27 @@ function App() {
   async function connectProvider(selectedProvider: EVMProviderDetected) {
     const request =
       selectedProvider.request ?? selectedProvider.provider.request;
-    const accounts = (await request({
-      method: "eth_requestAccounts",
-    })) as string[];
+    try {
+      const accounts = (await request({
+        method: "eth_requestAccounts",
+      })) as string[];
+      setProviders(prevProviders => {
+        selectedProvider.connected = true;
+        selectedProvider.accounts = accounts;
+        prevProviders.set(selectedProvider.info.uuid, selectedProvider);
+        return new Map(prevProviders);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const modifyProviders = (selectedProvider: EVMProviderDetected) => {
     setProviders(prevProviders => {
-      selectedProvider.connected = true;
-      selectedProvider.accounts = accounts;
       prevProviders.set(selectedProvider.info.uuid, selectedProvider);
       return new Map(prevProviders);
     });
-  }
+  };
 
   const addDummyWallet = () => {
     window.dispatchEvent(
@@ -182,7 +194,7 @@ function App() {
 
   return (
     <>
-      <main className="relative flex flex-col items-center justify-start min-h-screen sm:min-h-[calc(100vh_-_2rem)] py-4 max-w-md mx-auto border-0 sm:border-2 border-zinc-700/50 rounded-none sm:rounded-xl px-6 my-0 sm:my-4 bg-zinc-950">
+      <main className="relative flex flex-col items-center justify-start min-h-screen sm:min-h-[calc(100vh_-_2rem)] py-4 max-w-md mx-auto border-0 sm:border-2 border-zinc-700/50 rounded-none sm:rounded-xl px-4 my-0 sm:my-4 bg-zinc-950">
         <div className="flex items-end self-start justify-between w-full py-4 mb-4 overflow-hidden leading-snug h-fit">
           <motion.h1
             variants={sentenceVariant}
@@ -226,8 +238,7 @@ function App() {
                   key={provider.info.uuid}
                   clickHandler={() => connectProvider(provider)}
                   provider={provider}
-                  connected={provider.connected}
-                  accounts={provider.accounts}
+                  modifyProviders={modifyProviders}
                 />
               );
             })}
