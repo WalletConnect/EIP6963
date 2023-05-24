@@ -226,7 +226,7 @@ function App() {
             </motion.span>
           </p>
         </div>
-        <div className="absolute bottom-0 left-0 z-20 w-[calc(100%_-_3rem)] mx-6 my-4 overflow-hidden pointer-events-none h-1/4 bg-gradient-to-b from-transparent to-zinc-950" />
+        <div className="absolute bottom-0 left-0 z-20 w-[calc(100%_-_2rem)] mx-4 my-4 overflow-hidden pointer-events-none h-1/4 bg-gradient-to-b from-transparent to-zinc-950" />
         <div
           ref={contentRef}
           className="w-full max-h-[calc(100vh_-_10rem)] space-y-2 relative"
