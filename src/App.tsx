@@ -188,6 +188,8 @@ function App() {
     if (current && height) {
       if (height >= window.innerHeight - 160) {
         current.style.overflowY = "scroll";
+      } else if (current.style.overflowY === "scroll") {
+        current.style.overflowY = "auto";
       }
     }
   }, [height]);
