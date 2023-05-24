@@ -78,7 +78,7 @@ const Wallet = (props: Props) => {
       const chainName = await chainIDtoName(chainID);
       setChain(chainName);
     });
-    currentProvider.on("disconnect", (info: any) => {
+    currentProvider.on("disconnect", () => {
       provider.connected = false;
       modifyProviders(provider);
     });
