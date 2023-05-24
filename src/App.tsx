@@ -1,6 +1,5 @@
-import * as uuid from "uuid";
-import { WindowProvider } from "@wagmi/connectors";
-import defaultProviderIcon from "./assets/default.svg";
+import { v4 as uuidv4 } from "uuid";
+
 import React from "react";
 import {
   EIP6963AnnounceProviderEvent,
@@ -10,6 +9,8 @@ import Wallet from "./components/Wallet";
 import { Toaster } from "./components/ui/Toaster";
 import { AnimatePresence, motion } from "framer-motion";
 import useResizeObserver from "use-resize-observer";
+import { getInjectedInfo } from "./utils/injected";
+import { mapToObj } from "./utils/functions";
 
 const textVariants = {
   initial: {
@@ -65,54 +66,10 @@ declare global {
   }
 }
 
-function getInjectedName(ethereum?: WindowProvider): string {
-  if (!ethereum) return "Injected";
-
-  const getName = (provider: WindowProvider) => {
-    if (provider.isApexWallet) return "Apex Wallet";
-    if (provider.isAvalanche) return "Core Wallet";
-    if (provider.isBackpack) return "Backpack";
-    if (provider.isBifrost) return "Bifrost Wallet";
-    if (provider.isBitKeep) return "BitKeep";
-    if (provider.isBitski) return "Bitski";
-    if (provider.isBlockWallet) return "BlockWallet";
-    if (provider.isBraveWallet) return "Brave Wallet";
-    if (provider.isCoinbaseWallet) return "Coinbase Wallet";
-    if (provider.isDawn) return "Dawn Wallet";
-    if (provider.isDefiant) return "Defiant";
-    if (provider.isEnkrypt) return "Enkrypt";
-    if (provider.isExodus) return "Exodus";
-    if (provider.isFrame) return "Frame";
-    if (provider.isFrontier) return "Frontier Wallet";
-    if (provider.isGamestop) return "GameStop Wallet";
-    if (provider.isHyperPay) return "HyperPay Wallet";
-    if (provider.isImToken) return "ImToken";
-    if (provider.isHaloWallet) return "Halo Wallet";
-    if (provider.isKuCoinWallet) return "KuCoin Wallet";
-    if (provider.isMathWallet) return "MathWallet";
-    if (provider.isOkxWallet || provider.isOKExWallet) return "OKX Wallet";
-    if (provider.isOneInchIOSWallet || provider.isOneInchAndroidWallet)
-      return "1inch Wallet";
-    if (provider.isOpera) return "Opera";
-    if (provider.isPhantom) return "Phantom";
-    if (provider.isPortal) return "Ripio Portal";
-    if (provider.isRabby) return "Rabby Wallet";
-    if (provider.isRainbow) return "Rainbow";
-    if (provider.isStatus) return "Status";
-    if (provider.isTalisman) return "Talisman";
-    if (provider.isTally) return "Taho";
-    if (provider.isTokenPocket) return "TokenPocket";
-    if (provider.isTokenary) return "Tokenary";
-    if (provider.isTrust || provider.isTrustWallet) return "Trust Wallet";
-    if (provider.isXDEFI) return "XDEFI Wallet";
-    if (provider.isZerion) return "Zerion";
-    if (provider.isMetaMask) return "MetaMask";
-  };
-
-  return getName(ethereum) ?? "Injected";
-}
 function App() {
-  const [providers, setProviders] = React.useState<EVMProviderDetected[]>([]);
+  const [providers, setProviders] = React.useState<
+    Map<string, EVMProviderDetected>
+  >(new Map());
 
   const contentRef = React.useRef<HTMLDivElement>(null);
 
@@ -123,31 +80,29 @@ function App() {
   React.useEffect(() => {
     if (typeof window.ethereum !== "undefined") {
       const windowProvider = {
-        info: {
-          walletId: "window-ethereum-provider",
-          uuid: uuid.v4().toString(),
-          name: getInjectedName(window.ethereum),
-          icon: defaultProviderIcon,
-        },
+        info: getInjectedInfo(window.ethereum),
         provider: window.ethereum,
         connected: false,
         accounts: [],
       };
 
-      const otherProviders = providers.filter(
-        provider => provider.info.name !== windowProvider.info.name
-      );
-
       console.log("Window Provider:");
       console.table(windowProvider.info);
 
-      console.log("Other Provider:");
-      if (otherProviders.length === 0) console.log("None");
+      const otherProviders = mapToObj(providers);
+
+      console.log("Other Provider(s):");
+      if (Object.keys(otherProviders).length === 0) console.log("None");
       else {
-        console.table(otherProviders.map(provider => provider.info));
+        console.table(
+          Object.keys(otherProviders).map(key => otherProviders[key].info)
+        );
       }
 
-      setProviders([windowProvider, ...otherProviders]);
+      setProviders(prevProviders => {
+        prevProviders.set(windowProvider.info.uuid, windowProvider);
+        return prevProviders;
+      });
     }
 
     const onAnnounceProvider = (event: EIP6963AnnounceProviderEvent) => {
@@ -159,7 +114,10 @@ function App() {
         accounts: [],
       };
 
-      setProviders(providers => [...providers, announcedProvider]);
+      setProviders(prevProviders => {
+        prevProviders.set(announcedProvider.info.uuid, announcedProvider);
+        return prevProviders;
+      });
     };
 
     window.addEventListener(
@@ -182,15 +140,11 @@ function App() {
     const accounts = (await request({
       method: "eth_requestAccounts",
     })) as string[];
-    setProviders(prev => {
-      const newProvider = [...prev];
-      console.log(newProvider);
-      const index = newProvider.findIndex(
-        provider => provider.info.uuid === selectedProvider.info.uuid
-      );
-      newProvider[index].connected = true;
-      newProvider[index].accounts = accounts;
-      return newProvider;
+    setProviders(prevProviders => {
+      selectedProvider.connected = true;
+      selectedProvider.accounts = accounts;
+      prevProviders.set(selectedProvider.info.uuid, selectedProvider);
+      return prevProviders;
     });
   }
 
@@ -200,7 +154,7 @@ function App() {
         detail: {
           info: {
             walletId: "org.eip6963.dummy",
-            uuid: uuid.v4().toString(),
+            uuid: uuidv4().toString(),
             name: "EIP-6963 Wallet",
             icon: "https://upload.wikimedia.org/wikipedia/commons/b/b2/Apple_Wallet_Icon.svg",
           },
@@ -258,7 +212,7 @@ function App() {
           className="w-full max-h-[calc(100vh_-_10rem)] space-y-2 relative"
         >
           <AnimatePresence>
-            {providers.map(provider => {
+            {Object.entries(providers).map(([_, provider]) => {
               return (
                 <Wallet
                   key={provider.info.uuid}
