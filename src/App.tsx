@@ -274,7 +274,7 @@ function App() {
                 )}
                 {window.ethereum
                   ? `No EIP-6963 compatible providers found`
-                  : `No window.ethereum providers found.\nMake sure you have a wallet installed.`}
+                  : `No EIP-6963 or window.ethereum providers found. Make sure you have a wallet installed.`}
               </motion.p>
             )}
           </AnimatePresence>
