@@ -49,6 +49,10 @@ const letterVariant = {
 
 const headingText = "Discovered Wallets".split("");
 
+// persisting window.ethereum provider uuid globally
+// this is required to emulate the EIP-6963 experience
+const windowProviderUUID = uuidv4().toString();
+
 interface CustomEventMap {
   "eip6963:announceProvider": CustomEvent<EIP6963AnnounceProviderEvent>;
 }
@@ -80,7 +84,7 @@ function App() {
   React.useEffect(() => {
     if (typeof window.ethereum !== "undefined") {
       const windowProvider = {
-        info: getInjectedInfo(window.ethereum),
+        info: getInjectedInfo(windowProviderUUID, window.ethereum),
         provider: window.ethereum,
         connected: false,
         accounts: [],
@@ -90,7 +94,6 @@ function App() {
       console.table(windowProvider.info);
 
       const otherProviders = mapToObj(providers);
-
       console.log("Other Provider(s):");
       if (Object.keys(otherProviders).length === 0) console.log("None");
       else {
@@ -100,14 +103,7 @@ function App() {
       }
 
       setProviders(prevProviders => {
-        Object.keys(otherProviders).forEach(key => {
-          if (otherProviders[key].info.name !== windowProvider.info.name) {
-            prevProviders.set(key, otherProviders[key]);
-          }
-        });
-        if (Object.keys(otherProviders).length === 0) {
-          prevProviders.set(windowProvider.info.uuid, windowProvider);
-        }
+        prevProviders.set(windowProvider.info.uuid, windowProvider);
         return new Map(prevProviders);
       });
     }

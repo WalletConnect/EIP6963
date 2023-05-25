@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import { WindowProvider } from "@wagmi/connectors";
 
 import defaultProviderIcon from "../assets/default.svg";
@@ -6,10 +5,9 @@ import defaultProviderIcon from "../assets/default.svg";
 import { EIP6963ProviderInfo } from "./types";
 
 export function getInjectedInfo(
+  uuid: string,
   ethereum?: WindowProvider
 ): EIP6963ProviderInfo {
-  const uuid = uuidv4().toString();
-
   if (!ethereum)
     return {
       walletId: "unknown",
