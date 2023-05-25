@@ -49,10 +49,6 @@ const letterVariant = {
 
 const headingText = "Discovered Wallets".split("");
 
-// persisting window.ethereum provider uuid globally
-// this is required to emulate the EIP-6963 experience
-const windowProviderUUID = uuidv4().toString();
-
 interface CustomEventMap {
   "eip6963:announceProvider": CustomEvent<EIP6963AnnounceProviderEvent>;
 }
@@ -71,6 +67,7 @@ declare global {
 }
 
 function App() {
+  const [windowProviderUUID, setWindowProviderUUID] = React.useState<string>();
   const [providers, setProviders] = React.useState<
     Map<string, EVMProviderDetected>
   >(new Map());
@@ -82,32 +79,6 @@ function App() {
   });
 
   React.useEffect(() => {
-    if (typeof window.ethereum !== "undefined") {
-      const windowProvider = {
-        info: getInjectedInfo(windowProviderUUID, window.ethereum),
-        provider: window.ethereum,
-        connected: false,
-        accounts: [],
-      };
-
-      console.log("Window Provider:");
-      console.table(windowProvider.info);
-
-      const otherProviders = mapToObj(providers);
-      console.log("Other Provider(s):");
-      if (Object.keys(otherProviders).length === 0) console.log("None");
-      else {
-        console.table(
-          Object.keys(otherProviders).map(key => otherProviders[key].info)
-        );
-      }
-
-      setProviders(prevProviders => {
-        prevProviders.set(windowProvider.info.uuid, windowProvider);
-        return new Map(prevProviders);
-      });
-    }
-
     const onAnnounceProvider = (event: EIP6963AnnounceProviderEvent) => {
       console.log("Event Triggered: ", event.type);
       console.table(event.detail.info);
@@ -164,7 +135,19 @@ function App() {
     });
   };
 
-  const addDummyWallet = () => {
+  const addWindowProvider = () => {
+    if (typeof window.ethereum !== "undefined") {
+      const uuid = windowProviderUUID || uuidv4().toString();
+      setWindowProviderUUID(uuid);
+      window.dispatchEvent(
+        new CustomEvent("eip6963:announceProvider", {
+          detail: {
+            info: getInjectedInfo(uuid, window.ethereum),
+            provider: window.ethereum,
+          },
+        })
+      );
+    }
     window.dispatchEvent(
       new CustomEvent("eip6963:announceProvider", {
         detail: {
@@ -243,11 +226,11 @@ function App() {
           </AnimatePresence>
         </div>
         <button
-          onClick={addDummyWallet}
+          onClick={addWindowProvider}
           className="absolute z-50 grid w-12 h-12 text-3xl rounded-full bottom-8 right-8 shadow-bold group bg-zinc-800 text-zinc-300 place-items-center"
         >
           <span className="text-zinc-400 pointer-events-none absolute inline-block px-2 py-1 text-xs rounded-md bg-zinc-900 border border-zinc-800 transition-all opacity-0 -translate-x-28 group-hover:-translate-x-32 w-fit whitespace-pre group-hover:opacity-100 z-[0]">
-            Add a wallet with EIP-6963
+            Add window.ethereum provider as EIP-6963
           </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
