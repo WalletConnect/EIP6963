@@ -40,6 +40,24 @@ const warningVariants = {
   },
 };
 
+const buttonVariants = {
+  initial: {
+    opacity: 0,
+    y: 50,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 0.625,
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: 2,
+  },
+};
+
 const sentenceVariant = {
   initial: {
     opacity: 1,
@@ -236,49 +254,65 @@ function App() {
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                className="flex items-center gap-2 text-zinc-700"
+                className="flex items-center gap-2 leading-snug text-zinc-700"
               >
-                No EIP-6963 compatible providers found
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className="w-4 h-4"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-                  />
-                </svg>
+                {window.ethereum && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="flex-shrink-0 w-4 h-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                    />
+                  </svg>
+                )}
+                {window.ethereum
+                  ? `No EIP-6963 compatible providers found`
+                  : `No EIP-6963 or window.ethereum providers found. Make sure you have a wallet installed.`}
               </motion.p>
             )}
           </AnimatePresence>
         </div>
-        <button
-          onClick={addWindowProvider}
-          className="absolute z-50 grid w-12 h-12 text-3xl rounded-full bottom-8 right-8 shadow-bold group bg-zinc-800 text-zinc-300 place-items-center"
-        >
-          <span className="text-zinc-400 pointer-events-none absolute inline-block px-2 py-1 text-xs rounded-md bg-zinc-900 border border-zinc-800 transition-all opacity-0 -translate-x-36 group-hover:-translate-x-40 w-fit whitespace-pre group-hover:opacity-100 z-[0]">
-            Add window.ethereum provider as EIP-6963
-          </span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2.5}
-            stroke="currentColor"
-            className="w-5 h-5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 4.5v15m7.5-7.5h-15"
-            />
-          </svg>
-        </button>
+        <AnimatePresence mode="wait">
+          {
+            // display add provider button if window.ethereum is available
+            window.ethereum && providers.size === 0 && (
+              <motion.button
+                key="add-provider"
+                variants={buttonVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                onClick={addWindowProvider}
+                className="absolute z-50 grid w-12 h-12 text-3xl rounded-full bottom-8 right-8 shadow-bold group bg-zinc-800 text-zinc-300 place-items-center"
+              >
+                <span className="text-zinc-400 pointer-events-none absolute inline-block px-2 py-1 text-xs rounded-md bg-zinc-900 border border-zinc-800 transition-all opacity-0 -translate-x-36 group-hover:-translate-x-40 w-fit whitespace-pre group-hover:opacity-100 z-[0]">
+                  Add window.ethereum provider as EIP-6963
+                </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2.5}
+                  stroke="currentColor"
+                  className="w-5 h-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
+                  />
+                </svg>
+              </motion.button>
+            )
+          }
+        </AnimatePresence>
       </main>
       <Toaster />
     </>
