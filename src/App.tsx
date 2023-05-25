@@ -213,16 +213,20 @@ function App() {
           className="w-full max-h-[calc(100vh_-_10rem)] space-y-2 relative"
         >
           <AnimatePresence>
-            {Array.from(providers).map(([_, provider]) => {
-              return (
-                <Wallet
-                  key={provider.info.uuid}
-                  clickHandler={() => connectProvider(provider)}
-                  provider={provider}
-                  modifyProviders={modifyProviders}
-                />
-              );
-            })}
+            {Array.from(providers) ? (
+              Array.from(providers).map(([_, provider]) => {
+                return (
+                  <Wallet
+                    key={provider.info.uuid}
+                    clickHandler={() => connectProvider(provider)}
+                    provider={provider}
+                    modifyProviders={modifyProviders}
+                  />
+                );
+              })
+            ) : (
+              <span>No EIP-6963 compatible providers found</span>
+            )}
           </AnimatePresence>
         </div>
         <button
