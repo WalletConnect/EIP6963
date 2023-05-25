@@ -3,6 +3,7 @@ export interface EIP1193Provider {
     method: string;
     params?: unknown[] | object;
   }) => Promise<unknown>;
+  on(eventName: string, callback: (...args: any[]) => void): void;
 }
 
 export interface EIP6963ProviderInfo {

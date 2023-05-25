@@ -9,3 +9,13 @@ export function mapToObj<T = any>(map: Map<string, T>): Record<string, T> {
 export function objToMap<T = any>(obj: Record<string, T>): Map<string, T> {
   return new Map<string, T>(Object.entries<T>(obj));
 }
+
+export async function chainIDtoName(chainID: string): Promise<string> {
+  const res = await (
+    await fetch("https://chainid.network/chains_mini.json")
+  ).json();
+  const chainData = res.find(
+    (chain: any) => chain.chainId === parseInt(chainID, 16)
+  );
+  return chainData?.name || "Unknown";
+}
