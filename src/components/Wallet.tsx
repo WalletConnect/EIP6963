@@ -64,13 +64,14 @@ const Wallet = (props: Props) => {
 
   const [chain, setChain] = React.useState<string>("");
 
+  const isConnected = !!provider.accounts.length;
+
   React.useEffect(() => {
     if (!provider.provider) return;
     const currentProvider = provider.provider;
     currentProvider.on("accountsChanged", (accounts: string[]) => {
       console.log("accountsChanged", accounts);
       provider.accounts = accounts;
-      provider.connected = accounts.length !== 0;
       modifyProviders(provider);
     });
     currentProvider.on("chainChanged", async (chainID: any) => {
@@ -78,9 +79,8 @@ const Wallet = (props: Props) => {
       const chainName = await chainIDtoName(chainID);
       setChain(chainName);
     });
-    currentProvider.on("disconnect", () => {
-      provider.connected = false;
-      modifyProviders(provider);
+    currentProvider.on("disconnect", (error: Error) => {
+      console.log("disconnect", error);
     });
   }, [provider.provider, provider, modifyProviders]);
 
@@ -115,7 +115,7 @@ const Wallet = (props: Props) => {
             />
             <h1>{provider.info.name}</h1>
             <AnimatePresence mode="wait">
-              {chain && provider.connected && (
+              {chain && isConnected && (
                 <motion.p
                   variants={accountVariants}
                   initial="initial"
@@ -168,7 +168,7 @@ const Wallet = (props: Props) => {
               </motion.div>
             ) : (
               <AnimatePresence mode="wait">
-                {provider.connected ? (
+                {isConnected ? (
                   <motion.div
                     key="Connected"
                     variants={connectVariants}
@@ -215,7 +215,7 @@ const Wallet = (props: Props) => {
         </div>
       </div>
       <div className="relative w-full h-fit">
-        {provider.connected && (
+        {isConnected && (
           <AnimatePresence mode="wait">
             <motion.div
               variants={accountVariants}

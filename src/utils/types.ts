@@ -19,7 +19,6 @@ export interface EIP6963ProviderDetail {
 }
 
 export interface EVMProviderDetected extends EIP6963ProviderDetail {
-  connected: boolean;
   accounts: string[];
   request?: EIP1193Provider["request"];
 }
