@@ -122,7 +122,7 @@ const Wallet = (props: Props) => {
                   animate="animate"
                   exit="exit"
                   key={chain}
-                  className="flex items-center gap-1 pr-1.5 px-2 py-1 text-xs leading-none text-green-200 border border-green-600 rounded-md bg-green-900/25"
+                  className="flex items-center gap-1 pr-1.5 px-2 py-1 text-xs leading-tight text-green-200 border border-green-600 rounded-md bg-green-900/25"
                 >
                   <span className="max-w-[15ch] truncate">{chain}</span>
                   <svg
