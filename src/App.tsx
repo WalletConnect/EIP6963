@@ -119,7 +119,6 @@ function App() {
       console.table(event.detail.info);
       const announcedProvider = {
         ...event.detail,
-        connected: false,
         accounts: [],
       };
 
@@ -153,7 +152,6 @@ function App() {
         method: "eth_requestAccounts",
       })) as string[];
       setProviders(prevProviders => {
-        selectedProvider.connected = true;
         selectedProvider.accounts = accounts;
         prevProviders.set(selectedProvider.info.uuid, selectedProvider);
         return new Map(prevProviders);
