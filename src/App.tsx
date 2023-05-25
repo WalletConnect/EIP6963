@@ -148,18 +148,6 @@ function App() {
         })
       );
     }
-    window.dispatchEvent(
-      new CustomEvent("eip6963:announceProvider", {
-        detail: {
-          info: {
-            walletId: "org.eip6963.dummy",
-            uuid: uuidv4().toString(),
-            name: "EIP-6963 Wallet",
-            icon: "https://upload.wikimedia.org/wikipedia/commons/b/b2/Apple_Wallet_Icon.svg",
-          },
-        },
-      })
-    );
   };
 
   React.useEffect(() => {
