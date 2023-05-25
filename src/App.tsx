@@ -10,7 +10,6 @@ import { Toaster } from "./components/ui/Toaster";
 import { AnimatePresence, motion } from "framer-motion";
 import useResizeObserver from "use-resize-observer";
 import { getInjectedInfo } from "./utils/injected";
-import { mapToObj } from "./utils/functions";
 
 const textVariants = {
   initial: {
@@ -20,6 +19,24 @@ const textVariants = {
   animate: {
     opacity: 1,
     x: 0,
+  },
+};
+
+const warningVariants = {
+  initial: {
+    opacity: 0,
+    y: -20,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 0.625,
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: -5,
   },
 };
 
@@ -181,7 +198,7 @@ function App() {
               </motion.span>
             ))}
           </motion.h1>
-          <p className="pl-1 overflow-hidden font-semibold text-zinc-800 h-fit">
+          <p className="pl-1 overflow-hidden font-semibold text-zinc-700 h-fit">
             <motion.span
               variants={textVariants}
               initial="initial"
@@ -200,8 +217,8 @@ function App() {
           ref={contentRef}
           className="w-full max-h-[calc(100vh_-_10rem)] space-y-2 relative"
         >
-          <AnimatePresence>
-            {Array.from(providers) ? (
+          <AnimatePresence mode="wait">
+            {providers.size !== 0 ? (
               Array.from(providers).map(([_, provider]) => {
                 return (
                   <Wallet
@@ -213,7 +230,30 @@ function App() {
                 );
               })
             ) : (
-              <span>No EIP-6963 compatible providers found</span>
+              <motion.p
+                key="no-providers"
+                variants={warningVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                className="flex items-center gap-2 text-zinc-700"
+              >
+                No EIP-6963 compatible providers found
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="w-4 h-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                  />
+                </svg>
+              </motion.p>
             )}
           </AnimatePresence>
         </div>
@@ -221,7 +261,7 @@ function App() {
           onClick={addWindowProvider}
           className="absolute z-50 grid w-12 h-12 text-3xl rounded-full bottom-8 right-8 shadow-bold group bg-zinc-800 text-zinc-300 place-items-center"
         >
-          <span className="text-zinc-400 pointer-events-none absolute inline-block px-2 py-1 text-xs rounded-md bg-zinc-900 border border-zinc-800 transition-all opacity-0 -translate-x-28 group-hover:-translate-x-32 w-fit whitespace-pre group-hover:opacity-100 z-[0]">
+          <span className="text-zinc-400 pointer-events-none absolute inline-block px-2 py-1 text-xs rounded-md bg-zinc-900 border border-zinc-800 transition-all opacity-0 -translate-x-36 group-hover:-translate-x-40 w-fit whitespace-pre group-hover:opacity-100 z-[0]">
             Add window.ethereum provider as EIP-6963
           </span>
           <svg
