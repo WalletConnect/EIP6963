@@ -100,16 +100,7 @@ function App() {
       }
 
       setProviders(prevProviders => {
-        Object.keys(otherProviders).forEach(key => {
-          if (
-            otherProviders[key].info.walletId !== windowProvider.info.walletId
-          ) {
-            prevProviders.set(key, otherProviders[key]);
-          }
-        });
-        if (Object.keys(otherProviders).length === 0) {
-          prevProviders.set(windowProvider.info.uuid, windowProvider);
-        }
+        prevProviders.set(windowProvider.info.uuid, windowProvider);
         return new Map(prevProviders);
       });
     }
