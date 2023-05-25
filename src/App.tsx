@@ -101,7 +101,9 @@ function App() {
 
       setProviders(prevProviders => {
         Object.keys(otherProviders).forEach(key => {
-          if (otherProviders[key].info.name !== windowProvider.info.name) {
+          if (
+            otherProviders[key].info.walletId !== windowProvider.info.walletId
+          ) {
             prevProviders.set(key, otherProviders[key]);
           }
         });
