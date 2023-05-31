@@ -213,17 +213,20 @@ function App() {
             ))}
           </motion.h1>
           <p className="pl-1 overflow-hidden font-semibold text-zinc-700 h-fit">
-            <motion.span
+            <motion.a
+              href="https://eips.ethereum.org/EIPS/eip-6963"
+              rel="noopener noreferrer"
+              target="_blank"
               variants={textVariants}
               initial="initial"
               animate="animate"
               transition={{
                 delay: 0.625,
               }}
-              className="relative inline-block"
+              className="relative inline-block hover:underline"
             >
               EIP-6963
-            </motion.span>
+            </motion.a>
           </p>
         </div>
         <div className="absolute bottom-0 left-0 z-20 w-[calc(100%_-_2rem)] mx-4 my-4 overflow-hidden pointer-events-none h-1/4 bg-gradient-to-b from-transparent to-zinc-950" />
