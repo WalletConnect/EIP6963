@@ -121,9 +121,9 @@ function App() {
       };
 
       setProviders(prevProviders => {
-        return new Map(
-          prevProviders.set(announcedProvider.info.uuid, announcedProvider)
-        );
+        const providers = new Map(prevProviders);
+        providers.set(announcedProvider.info.uuid, announcedProvider);
+        return providers;
       });
     };
 
@@ -139,7 +139,6 @@ function App() {
         onAnnounceProvider as EventListener
       );
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function connectProvider(selectedProvider: EVMProviderDetected) {
@@ -150,9 +149,9 @@ function App() {
         method: "eth_requestAccounts",
       })) as string[];
       setProviders(prevProviders => {
-        selectedProvider.accounts = accounts;
-        prevProviders.set(selectedProvider.info.uuid, selectedProvider);
-        return new Map(prevProviders);
+        const providers = new Map(prevProviders);
+        providers.set(selectedProvider.info.uuid, { ...selectedProvider, accounts });
+        return providers;
       });
     } catch (error) {
       console.log(error);
@@ -161,8 +160,9 @@ function App() {
 
   const modifyProviders = (selectedProvider: EVMProviderDetected) => {
     setProviders(prevProviders => {
-      prevProviders.set(selectedProvider.info.uuid, selectedProvider);
-      return new Map(prevProviders);
+      const providers = new Map(prevProviders);
+      providers.set(selectedProvider.info.uuid, selectedProvider);
+      return providers;
     });
   };
 
