@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
-
 import React from "react";
 import {
   EIP6963AnnounceProviderEvent,
@@ -170,7 +168,7 @@ function App() {
 
   const addWindowProvider = () => {
     if (typeof window.ethereum !== "undefined") {
-      const uuid = windowProviderUUID || uuidv4().toString();
+      const uuid = windowProviderUUID || crypto.randomUUID();
       setWindowProviderUUID(uuid);
       window.dispatchEvent(
         new CustomEvent("eip6963:announceProvider", {
