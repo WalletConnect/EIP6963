@@ -226,7 +226,7 @@ function App() {
               transition={{
                 delay: 0.625,
               }}
-              className="relative inline-flex items-center gap-1 hover:underline underline-offset-2"
+              className="relative inline-flex items-center gap-1 transition-colors hover:underline underline-offset-2 hover:text-zinc-600"
             >
               EIP-6963
               <svg
