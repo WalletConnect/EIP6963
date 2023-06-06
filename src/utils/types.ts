@@ -7,7 +7,6 @@ export interface EIP1193Provider {
 }
 
 export interface EIP6963ProviderInfo {
-  walletId: string;
   uuid: string;
   name: string;
   icon: string;
