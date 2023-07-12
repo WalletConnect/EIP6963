@@ -8,6 +8,9 @@ import { Toaster } from "./components/ui/Toaster";
 import { AnimatePresence, motion } from "framer-motion";
 import useResizeObserver from "use-resize-observer";
 import { getInjectedInfo } from "./utils/injected";
+import { useToast } from "./components/ui/use-toast";
+import { isSVGDataUrl } from "./utils/functions";
+import { ToastAction } from "./components/ui/toast";
 
 const textVariants = {
   initial: {
@@ -111,10 +114,84 @@ function App() {
     ref: contentRef,
   });
 
+  const { toast } = useToast();
+
   React.useEffect(() => {
     const onAnnounceProvider = (event: EIP6963AnnounceProviderEvent) => {
       console.log("Event Triggered: ", event.type);
       console.table(event.detail.info);
+      if (event.detail.info.icon && !isSVGDataUrl(event.detail.info.icon)) {
+        console.log("Icon is not a valid svg data url");
+        toast({
+          variant: "destructive",
+          title: `Warning (${event.detail.info.name})`,
+          description: "Icon is not a valid svg data url",
+          action: (
+            <ToastAction
+              asChild
+              className="text-yellow-100 border border-yellow-100/50 hover:bg-yellow-950/50 hover:text-yellow-50"
+              altText="Learn More"
+            >
+              <a href="https://eips.ethereum.org/EIPS/eip-6963#provider-info">
+                Learn More{" "}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  className="w-4 h-4"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z"
+                    clipRule="evenodd"
+                  />
+                  <path
+                    fillRule="evenodd"
+                    d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </a>
+            </ToastAction>
+          ),
+        });
+      }
+      if (!event.detail.info.rdns) {
+        console.log("RDNS is missing from provider info");
+        toast({
+          variant: "destructive",
+          title: `Warning (${event.detail.info.name})`,
+          description: "RDNS is missing from provider info",
+          action: (
+            <ToastAction
+              asChild
+              className="text-yellow-100 border border-yellow-100/50 hover:bg-yellow-950/50 hover:text-yellow-50"
+              altText="Learn More"
+            >
+              <a href="https://eips.ethereum.org/EIPS/eip-6963#provider-info">
+                Learn More{" "}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  className="w-4 h-4"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z"
+                    clipRule="evenodd"
+                  />
+                  <path
+                    fillRule="evenodd"
+                    d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </a>
+            </ToastAction>
+          ),
+        });
+      }
       const announcedProvider = {
         ...event.detail,
         accounts: [],
@@ -260,7 +337,7 @@ function App() {
                 return (
                   <Wallet
                     key={provider.info.uuid}
-                    clickHandler={() => connectProvider(provider)}
+                    clickHandler={async () => await connectProvider(provider)}
                     provider={provider}
                     modifyProviders={modifyProviders}
                   />

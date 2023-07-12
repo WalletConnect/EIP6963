@@ -1,4 +1,8 @@
-import { chainIDtoName, truncateAddress } from "../utils/functions";
+import {
+  chainIDtoName,
+  isSVGDataUrl,
+  truncateAddress,
+} from "../utils/functions";
 import { EVMProviderDetected } from "../utils/types";
 import {
   Tooltip,
@@ -10,9 +14,10 @@ import {
 import { useToast } from "./ui/use-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
+import defaultIcon from "../assets/default.svg";
 
 type Props = {
-  clickHandler: () => void;
+  clickHandler: () => Promise<void>;
   provider: EVMProviderDetected;
   modifyProviders: (provider: EVMProviderDetected) => void;
 };
@@ -63,6 +68,7 @@ const Wallet = (props: Props) => {
   const { toast } = useToast();
 
   const [chain, setChain] = React.useState<string>("");
+  const [isConnecting, setIsConnecting] = React.useState<boolean>(false);
 
   const isConnected = !!provider.accounts.length;
 
@@ -95,6 +101,7 @@ const Wallet = (props: Props) => {
       setChain(chainName);
     }
     getCurrentChainName();
+    console.log("Connected: ", isConnected);
   }, [provider.provider]);
 
   return (
@@ -110,7 +117,11 @@ const Wallet = (props: Props) => {
           <div className="flex items-center gap-2">
             <img
               className="w-5 h-5 rounded"
-              src={provider.info.icon}
+              src={
+                isSVGDataUrl(provider.info.icon)
+                  ? provider.info.icon
+                  : defaultIcon
+              }
               alt={provider.info.name}
             />
             <h1>{provider.info.name}</h1>
@@ -182,10 +193,27 @@ const Wallet = (props: Props) => {
                       <span className="absolute inline-flex w-full h-full bg-green-400 rounded-full opacity-75 animate-halo"></span>
                     </div>
                   </motion.div>
+                ) : isConnecting ? (
+                  <motion.button
+                    key="Connecting"
+                    variants={connectVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    className="rounded-full py-1.5 px-3 bg-indigo-900/50 border border-indigo-700 text-sm leading-none flex items-center gap-2 cursor-not-allowed pointer-events-none text-indigo-100/80"
+                  >
+                    <span>Connecting</span>
+                    <span className="loader"></span>
+                  </motion.button>
                 ) : (
                   <motion.button
                     key="Connect"
-                    onClick={clickHandler}
+                    onClick={async () => {
+                      provider.accounts.length && setIsConnecting(true);
+                      clickHandler().finally(() => {
+                        setIsConnecting(false);
+                      });
+                    }}
                     variants={connectVariants}
                     initial="initial"
                     animate="animate"
@@ -238,50 +266,52 @@ const Wallet = (props: Props) => {
                     }`}
                   >
                     <p className="select-none">{truncateAddress(account)}</p>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger
-                          onClick={() => {
-                            navigator.clipboard.writeText(account);
-                            toast({
-                              description: "Copied address to clipboard",
-                            });
-                          }}
-                        >
-                          <div className="p-1 transition-colors rounded-md bg-zinc-800 text-inherit hover:text-zinc-200">
-                            <svg
-                              className="w-4 h-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="1.5"
-                                d="M6.5 15.25V15.25C5.5335 15.25 4.75 14.4665 4.75 13.5V6.75C4.75 5.64543 5.64543 4.75 6.75 4.75H13.5C14.4665 4.75 15.25 5.5335 15.25 6.5V6.5"
-                              ></path>
-                              <rect
-                                width="10.5"
-                                height="10.5"
-                                x="8.75"
-                                y="8.75"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="1.5"
-                                rx="2"
-                              ></rect>
-                            </svg>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipPortal>
-                          <TooltipContent side="left">
-                            <p>Copy to Clipboard</p>
-                          </TooltipContent>
-                        </TooltipPortal>
-                      </Tooltip>
-                    </TooltipProvider>
+                    <div className="flex items-center justify-center gap-2">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger
+                            onClick={() => {
+                              navigator.clipboard.writeText(account);
+                              toast({
+                                description: "Copied address to clipboard",
+                              });
+                            }}
+                          >
+                            <div className="p-1 transition-colors rounded-md bg-zinc-800 text-inherit hover:text-zinc-200">
+                              <svg
+                                className="w-4 h-4"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="1.5"
+                                  d="M6.5 15.25V15.25C5.5335 15.25 4.75 14.4665 4.75 13.5V6.75C4.75 5.64543 5.64543 4.75 6.75 4.75H13.5C14.4665 4.75 15.25 5.5335 15.25 6.5V6.5"
+                                ></path>
+                                <rect
+                                  width="10.5"
+                                  height="10.5"
+                                  x="8.75"
+                                  y="8.75"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="1.5"
+                                  rx="2"
+                                ></rect>
+                              </svg>
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipPortal>
+                            <TooltipContent side="left">
+                              <p>Copy to Clipboard</p>
+                            </TooltipContent>
+                          </TooltipPortal>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
                   </motion.div>
                 ))}
               </AnimatePresence>
