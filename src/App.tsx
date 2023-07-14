@@ -9,7 +9,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import useResizeObserver from "use-resize-observer";
 import { getInjectedInfo } from "./utils/injected";
 import { useToast } from "./components/ui/use-toast";
-import { isSVGDataUrl } from "./utils/functions";
+import { isSVGDataURI } from "./utils/functions";
 import { ToastAction } from "./components/ui/toast";
 
 const textVariants = {
@@ -120,12 +120,12 @@ function App() {
     const onAnnounceProvider = (event: EIP6963AnnounceProviderEvent) => {
       console.log("Event Triggered: ", event.type);
       console.table(event.detail.info);
-      if (event.detail.info.icon && !isSVGDataUrl(event.detail.info.icon)) {
-        console.log("Icon is not a valid svg data url");
+      if (event.detail.info.icon && !isSVGDataURI(event.detail.info.icon)) {
+        console.log("Icon is not a valid svg data URI");
         toast({
           variant: "destructive",
           title: `Warning (${event.detail.info.name})`,
-          description: "Icon is not a valid svg data url",
+          description: "Icon is not a valid svg data URI",
           action: (
             <ToastAction
               asChild

@@ -20,6 +20,6 @@ export async function chainIDtoName(chainID: string): Promise<string> {
   return chainData?.name || "Unknown";
 }
 
-export function isSVGDataUrl(svg: string): boolean {
+export function isSVGDataURI(svg: string): boolean {
   return svg.startsWith("data:image/svg+xml;base64,");
 }
