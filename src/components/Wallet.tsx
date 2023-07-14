@@ -1,6 +1,6 @@
 import {
   chainIDtoName,
-  isSVGDataUrl,
+  isSVGDataURI,
   truncateAddress,
 } from "../utils/functions";
 import { EVMProviderDetected } from "../utils/types";
@@ -118,7 +118,7 @@ const Wallet = (props: Props) => {
             <img
               className="w-5 h-5 rounded"
               src={
-                isSVGDataUrl(provider.info.icon)
+                isSVGDataURI(provider.info.icon)
                   ? provider.info.icon
                   : defaultIcon
               }
