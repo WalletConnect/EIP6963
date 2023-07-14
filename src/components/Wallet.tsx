@@ -179,7 +179,19 @@ const Wallet = (props: Props) => {
               </motion.div>
             ) : (
               <AnimatePresence mode="wait">
-                {isConnected ? (
+                {isConnecting ? (
+                  <motion.button
+                    key="Connecting"
+                    variants={connectVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    className="rounded-full py-1.5 px-3 bg-indigo-900/50 border border-indigo-700 text-sm leading-none flex items-center gap-2 cursor-not-allowed pointer-events-none text-indigo-100/80"
+                  >
+                    <span>Connecting</span>
+                    <span className="loader"></span>
+                  </motion.button>
+                ) : isConnected ? (
                   <motion.div
                     key="Connected"
                     variants={connectVariants}
@@ -193,25 +205,16 @@ const Wallet = (props: Props) => {
                       <span className="absolute inline-flex w-full h-full bg-green-400 rounded-full opacity-75 animate-halo"></span>
                     </div>
                   </motion.div>
-                ) : isConnecting ? (
-                  <motion.button
-                    key="Connecting"
-                    variants={connectVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    className="rounded-full py-1.5 px-3 bg-indigo-900/50 border border-indigo-700 text-sm leading-none flex items-center gap-2 cursor-not-allowed pointer-events-none text-indigo-100/80"
-                  >
-                    <span>Connecting</span>
-                    <span className="loader"></span>
-                  </motion.button>
                 ) : (
                   <motion.button
                     key="Connect"
-                    onClick={async () => {
-                      provider.accounts.length && setIsConnecting(true);
+                    onClick={() => {
+                      setIsConnecting(true);
                       clickHandler().finally(() => {
-                        setIsConnecting(false);
+                        // Wait for the animation to finish for framer motion to dismount the component
+                        setTimeout(() => {
+                          setIsConnecting(false);
+                        }, 500);
                       });
                     }}
                     variants={connectVariants}

@@ -235,6 +235,7 @@ function App() {
       });
     } catch (error) {
       console.log(error);
+      throw new Error("Failed to connect to provider");
     }
   }
 
