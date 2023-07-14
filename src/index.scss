@@ -41,6 +41,27 @@ body {
   animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
+.loader {
+  width: 10px;
+  height: 10px;
+  border: 1.75px solid;
+  @apply border-indigo-100/80;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes ping {
   75%,
   100% {
