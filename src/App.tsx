@@ -9,7 +9,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import useResizeObserver from "use-resize-observer";
 import { getInjectedInfo } from "./utils/injected";
 import { useToast } from "./components/ui/use-toast";
-import { isSVGDataURI } from "./utils/functions";
+import { isDataURI } from "./utils/functions";
 import { ToastAction } from "./components/ui/toast";
 
 const textVariants = {
@@ -120,7 +120,7 @@ function App() {
     const onAnnounceProvider = (event: EIP6963AnnounceProviderEvent) => {
       console.log("Event Triggered: ", event.type);
       console.table(event.detail.info);
-      if (event.detail.info.icon && !isSVGDataURI(event.detail.info.icon)) {
+      if (event.detail.info.icon && !isDataURI(event.detail.info.icon)) {
         console.log("Icon is not a valid svg data URI");
         toast({
           variant: "destructive",
