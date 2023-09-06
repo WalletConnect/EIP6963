@@ -11,83 +11,21 @@ import { getInjectedInfo } from "./utils/injected";
 import { useToast } from "./components/ui/use-toast";
 import { isDataURI } from "./utils/functions";
 import { ToastAction } from "./components/ui/toast";
-
-const textVariants = {
-  initial: {
-    opacity: 0,
-    x: 20,
-  },
-  animate: {
-    opacity: 1,
-    x: 0,
-  },
-};
-
-const warningVariants = {
-  initial: {
-    opacity: 0,
-    y: -20,
-  },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: 0.625,
-    },
-  },
-  exit: {
-    opacity: 0,
-    y: -5,
-  },
-};
-
-const buttonVariants = {
-  initial: {
-    opacity: 0,
-    y: -50,
-  },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: 0.625,
-    },
-  },
-  exit: {
-    opacity: 0,
-    y: 2,
-  },
-};
-
-const sentenceVariant = {
-  initial: {
-    opacity: 1,
-  },
-  animate: {
-    opacity: 1,
-    transition: {
-      delayChildren: 0.2,
-      staggerChildren: 0.02,
-    },
-  },
-};
-
-const letterVariant = {
-  initial: {
-    opacity: 0,
-    y: 10,
-  },
-  animate: {
-    opacity: 1,
-    y: 0,
-  },
-};
+import SupportedWallets from "./components/SupportedWallets";
+import {
+  buttonVariants,
+  letterVariant,
+  sentenceVariant,
+  textVariants,
+  warningVariants,
+} from "./components/ui/animationVariants";
 
 const headingText = "Discovered Wallets".split("");
 
 interface CustomEventMap {
   "eip6963:announceProvider": CustomEvent<EIP6963AnnounceProviderEvent>;
 }
+
 declare global {
   interface Document {
     addEventListener<K extends keyof CustomEventMap>(
@@ -275,8 +213,9 @@ function App() {
 
   return (
     <>
+      <SupportedWallets />
       <main className="relative flex flex-col items-center justify-start min-h-screen sm:min-h-[calc(100vh_-_2rem)] py-4 max-w-md mx-auto border-0 sm:border-2 border-zinc-700/50 rounded-none sm:rounded-xl px-4 my-0 sm:my-4 bg-zinc-950">
-        <div className="flex items-end self-start justify-between w-full py-4 mb-4 overflow-hidden leading-snug h-fit">
+        <div className="flex items-end self-start justify-between w-full py-4 mb-4 overflow-hidden h-fit">
           <motion.h1
             variants={sentenceVariant}
             initial="initial"
@@ -293,7 +232,7 @@ function App() {
               </motion.span>
             ))}
           </motion.h1>
-          <p className="pl-1 overflow-hidden font-semibold text-zinc-700 h-fit">
+          <p className="pb-0.5 pl-1 overflow-hidden font-semibold text-zinc-700 h-fit">
             <motion.a
               href="https://eips.ethereum.org/EIPS/eip-6963"
               rel="noopener noreferrer"
