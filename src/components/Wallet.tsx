@@ -11,52 +11,16 @@ import { useToast } from "./ui/use-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 import defaultIcon from "../assets/default.svg";
+import {
+  accountVariants,
+  connectVariants,
+  wrapperVariants,
+} from "./ui/animationVariants";
 
 type Props = {
   clickHandler: () => Promise<void>;
   provider: EVMProviderDetected;
   modifyProviders: (provider: EVMProviderDetected) => void;
-};
-
-const wrapperVariants = {
-  initial: {
-    opacity: 0,
-    y: 10,
-  },
-  animate: {
-    opacity: 1,
-    y: 0,
-  },
-};
-
-const connectVariants = {
-  initial: {
-    opacity: 0,
-    x: 10,
-  },
-  animate: {
-    opacity: 1,
-    x: 0,
-  },
-  exit: {
-    opacity: 0,
-    x: 10,
-  },
-};
-
-const accountVariants = {
-  initial: {
-    y: "-100%",
-    opacity: 0,
-  },
-  animate: {
-    opacity: 1,
-    y: 0,
-  },
-  exit: {
-    opacity: 0,
-    y: -1,
-  },
 };
 
 const Wallet = (props: Props) => {
