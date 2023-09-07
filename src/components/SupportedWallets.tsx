@@ -45,10 +45,13 @@ const Wallet: React.FC<{ name: string; url: string }> = ({ name, url }) => {
   );
 };
 
-const SupportedWallets: React.FC = () => {
+const SupportedWallets: React.FC<{
+  emulateAvailable: boolean;
+  handleAddWindowProvider: () => void;
+}> = ({ emulateAvailable, handleAddWindowProvider }) => {
   return (
     <>
-      <div className="absolute bottom-0 px-5 py-3 mx-auto my-0 border-2 rounded-xl z-[9999] left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-4 w-screen sm:w-[28rem] border-transparent sm:border-zinc-700/50 sm:my-4 bg-zinc-950/60 backdrop-blur-sm lg:rounded-t-xl rounded-t-none border-t-zinc-700/50">
+      <div className="absolute bottom-0 px-5 py-3 mx-auto my-0 border-2 rounded-xl z-[9999] left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-4 w-screen sm:w-[28rem] border-transparent sm:border-zinc-700/50 sm:my-4 bg-zinc-950/80 backdrop-blur-md lg:rounded-t-xl rounded-t-none border-t-zinc-700/50">
         <div className="flex items-end self-start justify-between w-full py-4 mb-3 overflow-hidden h-fit">
           <motion.h1
             variants={sentenceVariant}
@@ -102,6 +105,32 @@ const SupportedWallets: React.FC = () => {
         </div>
         <div className="w-full max-h-[calc(100vh_-_10rem)] gap-2 relative mb-3 grid grid-cols-2">
           <AnimatePresence mode="wait">
+            {emulateAvailable && (
+              <motion.button
+                variants={wrapperVariants}
+                initial="initial"
+                animate="animate"
+                key={"windowProvider"}
+                onClick={handleAddWindowProvider}
+                className="relative z-10 flex items-center justify-between px-4 py-2 pr-3 overflow-hidden bg-indigo-900 rounded-md shadow-lg lg:hidden group text-zinc-100 hover:bg-indigo-800"
+              >
+                <p>Emulate with wallet</p>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2.5}
+                  stroke="currentColor"
+                  className="w-4 h-4 transition-transform duration-150 translate-x-8 text-zinc-300 group-hover:translate-x-0"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
+                  />
+                </svg>
+              </motion.button>
+            )}
             {supportedWallets.map(props => (
               <Wallet key={props.name} name={props.name} url={props.url} />
             ))}

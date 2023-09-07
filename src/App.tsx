@@ -13,12 +13,12 @@ import { isDataURI } from "./utils/functions";
 import { ToastAction } from "./components/ui/toast";
 import SupportedWallets from "./components/SupportedWallets";
 import {
-  buttonVariants,
   letterVariant,
   sentenceVariant,
   textVariants,
   warningVariants,
 } from "./components/ui/animationVariants";
+import AddWindowProvider from "./components/AddWindowProvider";
 
 const headingText = "Discovered Wallets".split("");
 
@@ -154,6 +154,7 @@ function App() {
         onAnnounceProvider as EventListener
       );
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function connectProvider(selectedProvider: EVMProviderDetected) {
@@ -213,7 +214,10 @@ function App() {
 
   return (
     <>
-      <SupportedWallets />
+      <SupportedWallets
+        emulateAvailable={window.ethereum && providers.size === 0}
+        handleAddWindowProvider={addWindowProvider}
+      />
       <main className="relative flex flex-col items-center justify-start min-h-screen sm:min-h-[calc(100vh_-_2rem)] py-4 max-w-md mx-auto border-0 sm:border-2 border-zinc-700/50 rounded-none sm:rounded-xl px-4 my-0 sm:my-4 bg-zinc-950">
         <div className="flex items-end self-start justify-between w-full py-4 mb-4 overflow-hidden h-fit">
           <motion.h1
@@ -273,6 +277,7 @@ function App() {
         >
           <AnimatePresence mode="wait">
             {providers.size !== 0 ? (
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               Array.from(providers).map(([_, provider]) => {
                 return (
                   <Wallet
@@ -316,38 +321,10 @@ function App() {
           </AnimatePresence>
         </div>
         <AnimatePresence mode="wait">
-          {
-            // display add provider button if window.ethereum is available
-            window.ethereum && providers.size === 0 && (
-              <motion.button
-                key="add-provider"
-                variants={buttonVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                onClick={addWindowProvider}
-                className="absolute z-50 grid w-12 h-12 text-3xl rounded-full bottom-8 right-8 shadow-bold group bg-zinc-800 text-zinc-300 place-items-center"
-              >
-                <span className="text-zinc-400 pointer-events-none absolute inline-block px-2 py-1 text-xs rounded-md bg-zinc-900 border border-zinc-800 transition-all opacity-0 -translate-x-36 group-hover:-translate-x-40 w-fit whitespace-pre group-hover:opacity-100 z-[0]">
-                  Add window.ethereum provider as EIP-6963
-                </span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2.5}
-                  stroke="currentColor"
-                  className="w-5 h-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 4.5v15m7.5-7.5h-15"
-                  />
-                </svg>
-              </motion.button>
-            )
-          }
+          <AddWindowProvider
+            providers={providers}
+            handleClick={addWindowProvider}
+          />
         </AnimatePresence>
       </main>
       <Toaster />
