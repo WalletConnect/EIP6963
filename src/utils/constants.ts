@@ -15,4 +15,8 @@ export const supportedWallets = [
     name: "Brave",
     url: "https://brave.com",
   },
+  {
+    name: "TokenPocket",
+    url: "https://tokenpocket.pro",
+  },
 ];
