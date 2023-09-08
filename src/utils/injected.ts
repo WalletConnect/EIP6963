@@ -1,6 +1,7 @@
 import { WindowProvider } from "@wagmi/connectors";
 
 import defaultProviderIcon from "../assets/default.svg";
+import rainbowProviderIcon from "../assets/rainbow.svg";
 
 import { EIP6963ProviderInfo } from "./types";
 
@@ -182,7 +183,7 @@ export function getInjectedInfo(
       return {
         uuid,
         name: "Rainbow",
-        icon: defaultProviderIcon, // TODO: replace with Rainbow icon
+        icon: rainbowProviderIcon,
       };
     if (provider.isStatus)
       return {
