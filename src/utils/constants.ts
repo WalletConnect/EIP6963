@@ -19,4 +19,8 @@ export const supportedWallets = [
     name: "TokenPocket",
     url: "https://tokenpocket.pro",
   },
+  {
+    name: "Phantom",
+    url: "https://phantom.app/download",
+  },
 ];
