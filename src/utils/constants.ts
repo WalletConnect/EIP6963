@@ -23,4 +23,8 @@ export const supportedWallets = [
     name: "Phantom",
     url: "https://phantom.app/download",
   },
+  {
+    name: "0xStation",
+    url: "https://station.express/",
+  },
 ];
