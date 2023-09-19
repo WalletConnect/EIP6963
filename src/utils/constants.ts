@@ -8,6 +8,10 @@ export const supportedWallets = [
     url: "https://zerion.io",
   },
   {
+    name: "Rainbow",
+    url: "https://rainbow.me/extension",
+  },
+  {
     name: "Iron",
     url: "https://github.com/iron-wallet/iron",
   },
