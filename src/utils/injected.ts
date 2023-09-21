@@ -2,6 +2,8 @@ import { WindowProvider } from "@wagmi/connectors";
 
 import defaultProviderIcon from "../assets/default.svg";
 import rainbowProviderIcon from "../assets/rainbow.svg";
+import xdefiProviderIcon from "../assets/xdefi.svg";
+
 
 import { EIP6963ProviderInfo } from "./types";
 
@@ -224,8 +226,8 @@ export function getInjectedInfo(
     if (provider.isXDEFI)
       return {
         uuid,
-        name: "XDEFI Wallet",
-        icon: defaultProviderIcon, // TODO: replace with XDEFI Wallet icon
+        name: "XDEFI",
+        icon: xdefiProviderIcon, 
       };
     if (provider.isZerion)
       return {
