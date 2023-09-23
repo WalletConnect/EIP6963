@@ -1,3 +1,6 @@
+export const baseGithubURL =
+  "https://github.com/WalletConnect/EIP6963/blob/master";
+
 export enum Status {
   WORKING = "working",
   PARTIAL = "partial",

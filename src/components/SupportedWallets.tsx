@@ -5,14 +5,7 @@ import {
   textVariants,
   wrapperVariants,
 } from "./ui/animationVariants";
-import { Status, supportedWallets } from "../utils/constants";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipPortal,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./ui/tooltip";
+import { Status, baseGithubURL, supportedWallets } from "../utils/constants";
 
 const headingText = "Supported Wallets".split("");
 
@@ -98,60 +91,51 @@ const SupportedWallets: React.FC<{
     <>
       <div className="absolute bottom-0 px-5 py-3 mx-auto my-0 border-2 rounded-xl z-[49] left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-4 w-screen sm:w-[28rem] border-transparent sm:border-zinc-700/50 sm:my-4 bg-zinc-950/80 backdrop-blur-md lg:rounded-t-xl rounded-t-none border-t-zinc-700/50">
         <div className="flex items-end self-start justify-between w-full py-4 mb-3 overflow-hidden h-fit">
-          <motion.h1
-            variants={sentenceVariant}
-            initial="initial"
-            animate="animate"
-            className="overflow-hidden text-xl font-medium tracking-tighter whitespace-pre text-zinc-200"
-          >
-            {headingText.map((letter, index) => (
-              <motion.span
-                key={`${letter}-${index}`}
-                variants={letterVariant}
-                className="relative inline-block"
+          <div className="flex items-center gap-2">
+            <motion.h1
+              variants={sentenceVariant}
+              initial="initial"
+              animate="animate"
+              className="overflow-hidden text-xl font-medium tracking-tighter whitespace-pre text-zinc-200"
+            >
+              {headingText.map((letter, index) => (
+                <motion.span
+                  key={`${letter}-${index}`}
+                  variants={letterVariant}
+                  className="relative inline-block"
+                >
+                  {letter}
+                </motion.span>
+              ))}
+            </motion.h1>
+            <motion.a
+              variants={letterVariant}
+              initial="initial"
+              animate="animate"
+              transition={{ delay: 0.5 }}
+              href={`${baseGithubURL}/ISSUES.md`}
+              target="_blank"
+              className="p-1 transition-colors rounded-md text-zinc-300 hover:text-zinc-400"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.75}
+                stroke="currentColor"
+                className="w-4 h-4"
               >
-                {letter}
-              </motion.span>
-            ))}
-          </motion.h1>
-          <div className="flex items-center justify-center gap-2">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <div className="p-1 transition-colors rounded-md bg-zinc-800 text-inherit hover:text-zinc-200">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24">
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.5"
-                        d="M6.5 15.25V15.25C5.5335 15.25 4.75 14.4665 4.75 13.5V6.75C4.75 5.64543 5.64543 4.75 6.75 4.75H13.5C14.4665 4.75 15.25 5.5335 15.25 6.5V6.5"
-                      ></path>
-                      <rect
-                        width="10.5"
-                        height="10.5"
-                        x="8.75"
-                        y="8.75"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.5"
-                        rx="2"
-                      ></rect>
-                    </svg>
-                  </div>
-                </TooltipTrigger>
-                <TooltipPortal>
-                  <TooltipContent side="right" className="backdrop-blur-lg">
-                    <p>Copy to Clipboard</p>
-                  </TooltipContent>
-                </TooltipPortal>
-              </Tooltip>
-            </TooltipProvider>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                />
+              </svg>
+            </motion.a>
           </div>
           <p className="overflow-hidden text-zinc-700 h-fit">
             <motion.a
-              href="https://github.com/WalletConnect/EIP6963/blob/master/src/utils/constants.ts"
+              href={`${baseGithubURL}/src/utils/constants.ts`}
               rel="noopener noreferrer"
               target="_blank"
               variants={textVariants}
