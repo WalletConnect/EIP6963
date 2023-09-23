@@ -19,12 +19,12 @@
 | Index | Issue                                    | Severity |
 | ----- | ---------------------------------------- | -------- |
 | 1     | Name is missing                          | High     |
-| 2     | Icon URI is malformed                    | High     |
-| 3     | uuid is missing                          | High     |
-| 4     | uuid is malformed                        | High     |
-| 5     | Compatibility issue with EIP-1193        | High     |
-| 6     | Compatibility issue with Legacy Provider | High     |
-| 7     | Icon URI is missing                      | Medium   |
+| 2     | uuid is missing                          | High     |
+| 3     | uuid is malformed                        | High     |
+| 4     | Compatibility issue with EIP-1193        | High     |
+| 5     | Compatibility issue with Legacy Provider | High     |
+| 6     | Icon URI is missing                      | Medium   |
+| 7     | Icon URI is malformed                    | Medium   |
 | 8     | RDNS is missing                          | Low      |
 
 ## Known Issues with Wallets
