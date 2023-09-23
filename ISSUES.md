@@ -33,10 +33,10 @@
 
 | Issues List _(comma separated)_ | Status |
 | ------------------------------- | ------ |
-| 2                               | 🟡     |
+| 7                               | 🟡     |
 
 ### Rainbow
 
 | Issues List _(comma separated)_ | Status |
 | ------------------------------- | ------ |
-| 5, 6                            | 🔴     |
+| 4,5                             | 🔴     |
