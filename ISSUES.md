@@ -12,7 +12,9 @@
 > Status for a Defaulter will be assigned to the highest known severity from
 > this Glossary
 >
-> Severity to Status conversion: High - 🔴 Medium - 🟡 Low - 🟡
+> Severity to Status conversion:
+>
+> High - 🔴 Medium - 🟡 Low - 🟡
 
 | Index | Issue                                    | Severity |
 | ----- | ---------------------------------------- | -------- |
@@ -37,4 +39,4 @@
 
 | Issues List _(comma separated)_ | Status |
 | ------------------------------- | ------ |
-| 6                               | 🔴     |
+| 5, 6                            | 🔴     |
