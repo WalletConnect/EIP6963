@@ -5,11 +5,47 @@ import {
   textVariants,
   wrapperVariants,
 } from "./ui/animationVariants";
-import { supportedWallets } from "../utils/constants";
+import { Status, supportedWallets } from "../utils/constants";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipPortal,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 const headingText = "Supported Wallets".split("");
 
-const Wallet: React.FC<{ name: string; url: string }> = ({ name, url }) => {
+const getStatusComponent = (status: Status) => {
+  switch (status) {
+    case Status.WORKING:
+      return (
+        <div className="relative block w-2 h-2 bg-green-300 rounded-full shadow-inner shadow-green-500">
+          <span className="absolute inline-flex w-full h-full bg-green-400 rounded-full opacity-75 animate-halo"></span>
+        </div>
+      );
+    case Status.PARTIAL:
+      return (
+        <div className="relative block w-2 h-2 bg-yellow-300 rounded-full shadow-inner shadow-yellow-500">
+          <span className="absolute inline-flex w-full h-full bg-yellow-400 rounded-full opacity-75 animate-halo"></span>
+        </div>
+      );
+    case Status.BREAKING:
+      return (
+        <div className="relative block w-2 h-2 bg-red-300 rounded-full shadow-inner shadow-red-500">
+          <span className="absolute inline-flex w-full h-full bg-red-400 rounded-full opacity-75 animate-halo"></span>
+        </div>
+      );
+    default:
+      return "";
+  }
+};
+
+const Wallet: React.FC<{ name: string; url: string; status: Status }> = ({
+  name,
+  url,
+  status,
+}) => {
   const utmURL = new URL(url);
   utmURL.searchParams.set("utm_campaign", "eip6963");
   utmURL.searchParams.set("utm_source", "eip6963.org");
@@ -21,9 +57,12 @@ const Wallet: React.FC<{ name: string; url: string }> = ({ name, url }) => {
       key={name}
       href={utmURL.toString()}
       target="_blank"
-      className="relative z-10 flex items-center justify-between px-4 py-2 overflow-hidden rounded-md shadow-lg group bg-zinc-900 text-zinc-100 hover:bg-zinc-800"
+      className={`relative z-10 flex items-center justify-between px-3 py-2 overflow-hidden rounded-md shadow-lg group bg-zinc-900 text-zinc-100 hover:bg-zinc-800`}
     >
-      <p>{name}</p>
+      <div className="flex items-center gap-3">
+        {getStatusComponent(status)}
+        <p>{name}</p>
+      </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 20 20"
@@ -49,9 +88,15 @@ const SupportedWallets: React.FC<{
   emulateAvailable: boolean;
   handleAddWindowProvider: () => void;
 }> = ({ emulateAvailable, handleAddWindowProvider }) => {
+  const statusOrder = Object.values(Status);
+  const sortedSupportedWallets = supportedWallets.sort((a, b) => {
+    const aStatus = statusOrder.indexOf(a.status);
+    const bStatus = statusOrder.indexOf(b.status);
+    return aStatus - bStatus;
+  });
   return (
     <>
-      <div className="absolute bottom-0 px-5 py-3 mx-auto my-0 border-2 rounded-xl z-[9999] left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-4 w-screen sm:w-[28rem] border-transparent sm:border-zinc-700/50 sm:my-4 bg-zinc-950/80 backdrop-blur-md lg:rounded-t-xl rounded-t-none border-t-zinc-700/50">
+      <div className="absolute bottom-0 px-5 py-3 mx-auto my-0 border-2 rounded-xl z-[49] left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-4 w-screen sm:w-[28rem] border-transparent sm:border-zinc-700/50 sm:my-4 bg-zinc-950/80 backdrop-blur-md lg:rounded-t-xl rounded-t-none border-t-zinc-700/50">
         <div className="flex items-end self-start justify-between w-full py-4 mb-3 overflow-hidden h-fit">
           <motion.h1
             variants={sentenceVariant}
@@ -69,6 +114,41 @@ const SupportedWallets: React.FC<{
               </motion.span>
             ))}
           </motion.h1>
+          <div className="flex items-center justify-center gap-2">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <div className="p-1 transition-colors rounded-md bg-zinc-800 text-inherit hover:text-zinc-200">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24">
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="M6.5 15.25V15.25C5.5335 15.25 4.75 14.4665 4.75 13.5V6.75C4.75 5.64543 5.64543 4.75 6.75 4.75H13.5C14.4665 4.75 15.25 5.5335 15.25 6.5V6.5"
+                      ></path>
+                      <rect
+                        width="10.5"
+                        height="10.5"
+                        x="8.75"
+                        y="8.75"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        rx="2"
+                      ></rect>
+                    </svg>
+                  </div>
+                </TooltipTrigger>
+                <TooltipPortal>
+                  <TooltipContent side="right" className="backdrop-blur-lg">
+                    <p>Copy to Clipboard</p>
+                  </TooltipContent>
+                </TooltipPortal>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <p className="overflow-hidden text-zinc-700 h-fit">
             <motion.a
               href="https://github.com/WalletConnect/EIP6963/blob/master/src/utils/constants.ts"
@@ -131,8 +211,13 @@ const SupportedWallets: React.FC<{
                 </svg>
               </motion.button>
             )}
-            {supportedWallets.map(props => (
-              <Wallet key={props.name} name={props.name} url={props.url} />
+            {sortedSupportedWallets.map(props => (
+              <Wallet
+                key={props.name}
+                name={props.name}
+                url={props.url}
+                status={props.status}
+              />
             ))}
           </AnimatePresence>
         </div>
