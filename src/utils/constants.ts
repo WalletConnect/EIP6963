@@ -1,5 +1,9 @@
 export const supportedWallets = [
   {
+    name: "XDEFI",
+    url: "https://xdefi.io",
+  },
+  {
     name: "Enkrypt",
     url: "https://www.enkrypt.com",
   },
