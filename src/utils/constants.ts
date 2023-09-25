@@ -27,4 +27,8 @@ export const supportedWallets = [
     name: "Phantom",
     url: "https://phantom.app/download",
   },
+  {
+    name: "Spot",
+    url: "https://spot-wallet.com",
+  },
 ];
