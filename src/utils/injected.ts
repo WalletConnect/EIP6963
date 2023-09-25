@@ -228,7 +228,7 @@ export function getInjectedInfo(
         uuid,
         name: "XDEFI",
         icon: xdefiProviderIcon, 
-        rdns: io.xdefi,
+        rdns?: io.xdefi,
       };
     if (provider.isZerion)
       return {
