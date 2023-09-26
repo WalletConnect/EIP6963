@@ -35,4 +35,8 @@ export const supportedWallets = [
     name: "Spot",
     url: "https://spot-wallet.com",
   },
+  {
+    name: "OKX",
+    url: "https://www.okx.com/web3",
+  }
 ];
