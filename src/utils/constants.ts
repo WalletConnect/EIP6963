@@ -38,5 +38,9 @@ export const supportedWallets = [
   {
     name: "OKX",
     url: "https://www.okx.com/web3",
+  },
+  {
+    name: "Sequence",
+    url: "https://sequence.xyz/wallet"
   }
 ];
