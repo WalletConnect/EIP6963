@@ -1,7 +1,7 @@
 export const supportedWallets = [
   {
-    name: "XDEFI",
-    url: "https://xdefi.io",
+    name: "Brave",
+    url: "https://brave.com",
   },
   {
     name: "Enkrypt",
@@ -12,32 +12,32 @@ export const supportedWallets = [
     url: "https://zerion.io",
   },
   {
-    name: "Rainbow",
-    url: "https://rainbow.me/extension",
+    name: "TokenPocket",
+    url: "https://tokenpocket.pro",
   },
   {
     name: "Iron",
     url: "https://github.com/iron-wallet/iron",
   },
   {
-    name: "Brave",
-    url: "https://brave.com",
-  },
-  {
-    name: "TokenPocket",
-    url: "https://tokenpocket.pro",
+    name: "Rainbow",
+    url: "https://rainbow.me/extension",
   },
   {
     name: "Phantom",
     url: "https://phantom.app/download",
   },
   {
+    name: "OKX",
+    url: "https://www.okx.com/web3",
+  },
+  {
     name: "Spot",
     url: "https://spot-wallet.com",
   },
   {
-    name: "OKX",
-    url: "https://www.okx.com/web3",
+    name: "XDEFI",
+    url: "https://xdefi.io",
   },
   {
     name: "Talisman",
