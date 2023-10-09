@@ -4,6 +4,10 @@ export const supportedWallets = [
     url: "https://brave.com",
   },
   {
+    name: "Frontier",
+    url: "https://www.frontier.xyz/download",
+  },
+  {
     name: "Enkrypt",
     url: "https://www.enkrypt.com",
   },
