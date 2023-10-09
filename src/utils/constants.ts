@@ -43,4 +43,8 @@ export const supportedWallets = [
     name: "Talisman",
     url: "https://talisman.xyz",
   },
+  {
+    name: "Frontier",
+    url: "https://www.frontier.xyz/download",
+  },
 ];
