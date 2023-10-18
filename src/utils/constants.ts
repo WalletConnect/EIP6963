@@ -50,5 +50,9 @@ export const supportedWallets = [
   {
     name: "Sequence",
     url: "https://sequence.xyz/wallet"
+  },
+  {
+    name: "Rabby Wallet",
+    url: "https://rabby.io"
   }
 ];
