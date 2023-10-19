@@ -54,5 +54,9 @@ export const supportedWallets = [
   {
     name: "Rabby Wallet",
     url: "https://rabby.io"
+  },
+  {
+    name: "Trust Wallet",
+    url: "https://trustwallet.com"
   }
 ];
