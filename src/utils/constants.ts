@@ -51,4 +51,15 @@ export const supportedWallets = [
     name: "SafePal",
     url: "https://www.safepal.com/download",
   },
+    name: "Sequence",
+    url: "https://sequence.xyz/wallet"
+  },
+  {
+    name: "Rabby Wallet",
+    url: "https://rabby.io"
+  },
+  {
+    name: "Trust Wallet",
+    url: "https://trustwallet.com"
+  }
 ];
