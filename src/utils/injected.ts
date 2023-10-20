@@ -241,12 +241,6 @@ export function getInjectedInfo(
         name: "MetaMask",
         icon: defaultProviderIcon, // TODO: replace with MetaMask icon
       };
-    if (provider.isSafePalWallet)
-      return {
-        uuid,
-        name: "SafePal",
-        icon: defaultProviderIcon, // TODO: replace with SafePal icon
-      };
   };
 
   return (
