@@ -51,6 +51,7 @@ export const supportedWallets = [
     name: "SafePal",
     url: "https://www.safepal.com/download",
   },
+  {
     name: "Sequence",
     url: "https://sequence.xyz/wallet"
   },
