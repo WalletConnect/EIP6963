@@ -48,6 +48,10 @@ export const supportedWallets = [
     url: "https://www.frontier.xyz/download",
   },
   {
+    name: "SafePal",
+    url: "https://www.safepal.com/download",
+  },
+  {
     name: "Sequence",
     url: "https://sequence.xyz/wallet"
   },
