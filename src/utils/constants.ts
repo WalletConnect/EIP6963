@@ -53,14 +53,14 @@ export const supportedWallets = [
   },
   {
     name: "Sequence",
-    url: "https://sequence.xyz/wallet"
+    url: "https://sequence.xyz/wallet",
   },
   {
     name: "Rabby Wallet",
-    url: "https://rabby.io"
+    url: "https://rabby.io",
   },
   {
     name: "Trust Wallet",
-    url: "https://trustwallet.com"
-  }
+    url: "https://trustwallet.com",
+  },
 ];
