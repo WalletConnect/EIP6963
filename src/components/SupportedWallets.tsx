@@ -6,16 +6,20 @@ import {
   wrapperVariants,
 } from "./ui/animationVariants";
 import { supportedWallets } from "../utils/constants";
+import { useState } from "react";
+import ReactPaginate from "react-paginate";
 
 const headingText = "Supported Wallets".split("");
 
-const Wallet: React.FC<{ name: string; url: string }> = ({ name, url }) => {
+type WalletProps = { name: string; url: string };
+
+const Wallet: React.FC<WalletProps> = ({ name, url }) => {
   const utmURL = new URL(url);
   utmURL.searchParams.set("utm_campaign", "eip6963");
   utmURL.searchParams.set("utm_source", "eip6963.org");
   return (
     <motion.a
-      variants={wrapperVariants}
+      variants={textVariants}
       initial="initial"
       animate="animate"
       key={name}
@@ -45,6 +49,90 @@ const Wallet: React.FC<{ name: string; url: string }> = ({ name, url }) => {
   );
 };
 
+const Items: React.FC<{ currentItems: WalletProps[] }> = ({ currentItems }) => {
+  return (
+    <>
+      {currentItems &&
+        currentItems.map(props => (
+          <Wallet key={props.name} name={props.name} url={props.url} />
+        ))}
+    </>
+  );
+};
+
+const PaginatedItems: React.FC<{ itemsPerPage: number }> = ({
+  itemsPerPage,
+}) => {
+  const [itemOffset, setItemOffset] = useState(0);
+
+  const endOffset = itemOffset + itemsPerPage;
+  console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+  const currentItems = supportedWallets.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(supportedWallets.length / itemsPerPage);
+
+  const handlePageClick = (event: { selected: number }) => {
+    const newOffset = (event.selected * itemsPerPage) % supportedWallets.length;
+    setItemOffset(newOffset);
+  };
+
+  return (
+    <>
+      <Items currentItems={currentItems} />
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="w-3.5 h-3.5"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M8.25 4.5l7.5 7.5-7.5 7.5"
+            />
+          </svg>
+        }
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={2}
+        marginPagesDisplayed={1}
+        pageCount={pageCount}
+        previousLabel={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="w-3.5 h-3.5"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 19.5L8.25 12l7.5-7.5"
+            />
+          </svg>
+        }
+        pageClassName="bg-zinc-900 text-zinc-500 w-8 h-8 rounded-sm grid place-items-center transition-colors"
+        nextClassName="bg-zinc-900 text-zinc-500 w-8 h-8 rounded-r-lg rounded-l-sm grid place-items-center transition-[opacity]"
+        previousClassName="bg-zinc-900 text-zinc-500 w-8 h-8 rounded-l-lg rounded-r-sm grid place-items-center transition-[opacity]"
+        breakClassName="opacity-70 bg-zinc-900 text-zinc-500 w-8 h-8 rounded-sm grid text-xs place-items-center transition-colors"
+        className="flex items-center justify-start w-full mt-4 space-x-0.5 font-mono text-sm leading-tight rounded-md shadow-lg text-zinc-700 select-none"
+        activeClassName="!bg-zinc-800 !text-zinc-300 pointer-events-none"
+        disabledClassName="opacity-60 pointer-events-none"
+        pageLinkClassName="h-full w-full grid place-items-center"
+        nextLinkClassName="h-full w-full grid place-items-center"
+        previousLinkClassName="h-full w-full grid place-items-center"
+        breakLinkClassName="h-full w-full grid place-items-center"
+        renderOnZeroPageCount={null}
+      />
+    </>
+  );
+};
+
 const SupportedWallets: React.FC<{
   emulateAvailable: boolean;
   handleAddWindowProvider: () => void;
@@ -69,7 +157,7 @@ const SupportedWallets: React.FC<{
               </motion.span>
             ))}
           </motion.h1>
-          <p className="overflow-hidden text-zinc-700 h-fit">
+          <p className="overflow-hidden h-fit text-zinc-700 ">
             <motion.a
               href="https://github.com/WalletConnect/EIP6963/blob/master/src/utils/constants.ts"
               rel="noopener noreferrer"
@@ -103,7 +191,7 @@ const SupportedWallets: React.FC<{
             </motion.a>
           </p>
         </div>
-        <div className="w-full max-h-[calc(100vh_-_10rem)] gap-2 relative mb-3 grid grid-cols-2">
+        <div className="w-full max-h-[calc(100vh_-_10rem)] gap-2 relative mb-3">
           <AnimatePresence mode="wait">
             {emulateAvailable && (
               <motion.button
@@ -131,9 +219,40 @@ const SupportedWallets: React.FC<{
                 </svg>
               </motion.button>
             )}
-            {supportedWallets.map(props => (
-              <Wallet key={props.name} name={props.name} url={props.url} />
-            ))}
+            <motion.div
+              variants={wrapperVariants}
+              initial="initial"
+              animate="animate"
+              key={"supportedWallets"}
+              transition={{
+                delay: 0.625,
+              }}
+              className="grid w-full grid-cols-2 col-span-2 gap-2"
+            >
+              <PaginatedItems itemsPerPage={6} />
+              <a
+                className="flex items-center justify-center ml-auto w-fit h-8 py-1.5 px-4 mt-4 space-x-0.5 text-sm leading-none rounded-full shadow-lg text-indigo-300 bg-indigo-900 select-none hover:bg-indigo-700 hover:text-indigo-100 transition-colors"
+                href="https://twitter.com/boidushya/status/1714389971778552128"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Steps to add wallet
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="w-3.5 h-3.5 ml-1.5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
+                  />
+                </svg>
+              </a>
+            </motion.div>
           </AnimatePresence>
         </div>
       </div>

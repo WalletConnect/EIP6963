@@ -19,6 +19,7 @@
     "lucide-react": "^0.220.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-paginate": "^8.2.0",
     "sass": "^1.62.1",
     "tailwind-merge": "^1.12.0",
     "tailwindcss-animate": "^1.0.5",
