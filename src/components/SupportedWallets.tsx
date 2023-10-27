@@ -56,6 +56,7 @@ const Items: React.FC<{ currentItems: WalletProps[] }> = ({ currentItems }) => {
         currentItems.map(props => (
           <Wallet key={props.name} name={props.name} url={props.url} />
         ))}
+      {currentItems.length % 2 === 1 && <div className="not-sr-only" />}
     </>
   );
 };
