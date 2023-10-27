@@ -63,4 +63,8 @@ export const supportedWallets = [
     name: "Trust Wallet",
     url: "https://trustwallet.com",
   },
+  {
+    name: "Coinbase",
+    url: "https://www.coinbase.com/wallet",
+  },
 ];
