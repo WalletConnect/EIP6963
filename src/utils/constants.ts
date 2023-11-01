@@ -67,4 +67,8 @@ export const supportedWallets = [
     name: "Coinbase",
     url: "https://www.coinbase.com/wallet",
   },
+  {
+    name: "Metamask",
+    url: "https://metamask.io/",
+  },
 ];
