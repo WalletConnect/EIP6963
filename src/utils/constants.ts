@@ -71,4 +71,8 @@ export const supportedWallets = [
     name: "Metamask",
     url: "https://metamask.io/",
   },
+    {
+    name: "Tokenary",
+    url: "https://www.tokenary.io",
+  },
 ];
