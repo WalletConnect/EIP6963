@@ -71,4 +71,8 @@ export const supportedWallets = [
     name: "Metamask",
     url: "https://metamask.io/",
   },
+  {
+    name: "Crypto.com Wallet",
+    url: "https://crypto.com/defi-wallet",
+  },
 ];
