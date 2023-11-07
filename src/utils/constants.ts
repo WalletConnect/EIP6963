@@ -75,4 +75,8 @@ export const supportedWallets = [
     name: "Crypto.com Wallet",
     url: "https://crypto.com/defi-wallet",
   },
+  {
+    name: "Ronin Wallet",
+    url: "https://wallet.roninchain.com/",
+  },
 ];
