@@ -79,4 +79,8 @@ export const supportedWallets = [
     name: "Ronin Wallet",
     url: "https://wallet.roninchain.com/",
   },
+  {
+    name: "Fordefi",
+    url: "https://www.fordefi.com",
+  },
 ];
