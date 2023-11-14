@@ -83,4 +83,8 @@ export const supportedWallets = [
     name: "MetaMask Institutional",
     url: "https://metamask.io/institutions/",
   },
+  {
+    name: "Fluvi",
+    url: "https://fluviwallet.xyz/",
+  },
 ];
