@@ -87,4 +87,8 @@ export const supportedWallets = [
     name: "Bitget Wallet",
     url: "https://web3.bitget.com/",
   },
+  {
+    name: "Obsidian DeSci",
+    url: "https://obsidian-desci.github.io/Docs/",
+  },
 ];
