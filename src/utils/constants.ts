@@ -68,7 +68,7 @@ export const supportedWallets = [
     url: "https://www.coinbase.com/wallet",
   },
   {
-    name: "Metamask",
+    name: "MetaMask",
     url: "https://metamask.io/",
   },
   {
@@ -82,6 +82,10 @@ export const supportedWallets = [
   {
     name: "MetaMask Institutional",
     url: "https://metamask.io/institutions/",
+  },
+  {
+    name: "Bitget Wallet",
+    url: "https://web3.bitget.com/",
   },
   {
     name: "Fluvi",
