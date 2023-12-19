@@ -87,4 +87,8 @@ export const supportedWallets = [
     name: "Bitget Wallet",
     url: "https://web3.bitget.com/",
   },
+  {
+    name: "Fluvi",
+    url: "https://fluviwallet.xyz/",
+  },
 ];
