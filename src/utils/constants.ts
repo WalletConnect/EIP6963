@@ -91,4 +91,8 @@ export const supportedWallets = [
     name: "Fluvi",
     url: "https://fluviwallet.xyz/",
   },
+  {
+    name: "Safeheron Wallet",
+    url: "https://safeheron.com/",
+  },
 ];
