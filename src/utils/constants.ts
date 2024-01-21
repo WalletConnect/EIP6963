@@ -91,4 +91,8 @@ export const supportedWallets = [
     name: "Fluvi",
     url: "https://fluviwallet.xyz/",
   },
+  {
+    name: "Milkomeda WSC Provider",
+    url: "https://milkomeda.com",
+  },    
 ];
