@@ -95,4 +95,8 @@ export const supportedWallets = [
     name: "Safeheron Wallet",
     url: "https://safeheron.com/",
   },
+  {
+    name: "Pockie Wallet",
+    url: "https://www.pockie.io",
+  },
 ];
