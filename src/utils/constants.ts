@@ -92,6 +92,10 @@ export const supportedWallets = [
     url: "https://fluviwallet.xyz/",
   },
   {
+    name: "Safeheron Wallet",
+    url: "https://safeheron.com/",
+  },
+  {
     name: "BlockWallet",
     url: "https://blockwallet.io",
   }
