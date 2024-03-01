@@ -95,4 +95,8 @@ export const supportedWallets = [
     name: "Safeheron Wallet",
     url: "https://safeheron.com/",
   },
+  {
+    name: "Okto Wallet",
+    url: "https://okto.tech/",
+  },
 ];
