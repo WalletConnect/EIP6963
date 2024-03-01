@@ -99,4 +99,8 @@ export const supportedWallets = [
     name: "Okto Wallet",
     url: "https://okto.tech/",
   },
+  {
+    name: "BlockWallet",
+    url: "https://blockwallet.io",
+  }
 ];
