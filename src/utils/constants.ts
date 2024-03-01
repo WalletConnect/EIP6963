@@ -102,5 +102,9 @@ export const supportedWallets = [
   {
     name: "BlockWallet",
     url: "https://blockwallet.io",
+  },
+  {
+    name: "Pockie Wallet",
+    url: "https://www.pockie.io",
   }
 ];
