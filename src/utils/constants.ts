@@ -106,5 +106,9 @@ export const supportedWallets = [
   {
     name: "Pockie Wallet",
     url: "https://www.pockie.io",
+  },
+  {
+    name: "FoxWallet",
+    url: "https://foxwallet.com",
   }
 ];
