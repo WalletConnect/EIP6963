@@ -107,7 +107,7 @@ export const supportedWallets = [
     name: "Pockie Wallet",
     url: "https://www.pockie.io",
   },
-    {
+  {
     name: "Loopring",
     url: "https://www.loopring.io",
   }
