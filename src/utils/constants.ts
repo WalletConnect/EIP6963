@@ -16,8 +16,8 @@ export const supportedWallets = [
     url: "https://tokenpocket.pro",
   },
   {
-    name: "Iron",
-    url: "https://github.com/iron-wallet/iron",
+    name: "ethui",
+    url: "https://github.com/ethui/ethui",
   },
   {
     name: "Rainbow",
@@ -110,5 +110,5 @@ export const supportedWallets = [
   {
     name: "Loopring",
     url: "https://www.loopring.io",
-  }
+  },
 ];
