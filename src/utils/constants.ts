@@ -111,4 +111,8 @@ export const supportedWallets = [
     name: "Loopring",
     url: "https://www.loopring.io",
   },
+  {
+    name: "Haqq Wallet",
+    url: "https://haqq.network/wallet",
+  },
 ];
