@@ -111,4 +111,8 @@ export const supportedWallets = [
     name: "Loopring",
     url: "https://www.loopring.io",
   },
+  {
+    name: "Bifrost Wallet",
+    url: "https://bifrostwallet.com/",
+  },
 ];
