@@ -72,8 +72,8 @@ export const supportedWallets = [
     url: "https://metamask.io/",
   },
   {
-    name: "Crypto.com Wallet",
-    url: "https://crypto.com/defi-wallet",
+    name: "Crypto.com Onchain",
+    url: "https://crypto.com/onchain",
   },
   {
     name: "Ronin Wallet",
